@@ -1,0 +1,28 @@
+{
+    "name": "zahzah/module-warehouse",
+    "autoload": {
+        "psr-4": {
+            "Zahzah\\ModuleWarehouse\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "hamzah",
+            "email": "hamzahnuralfalah@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Zahzah\\ModuleWarehouse\\ModuleWarehouseServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "zahzah/laravel-support": "1.x",
+        "zahzah/laravel-has-props": "1.x",
+        "zahzah/module-funding": "1.x"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": false
+}

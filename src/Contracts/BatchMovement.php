@@ -1,9 +1,7 @@
 <?php
 
-namespace Zahzah\ModuleWarehouse\Contracts;
+namespace Hanafalah\ModuleWarehouse\Contracts;
 
-use Zahzah\LaravelSupport\Contracts\DataManagement;
+use Hanafalah\LaravelSupport\Contracts\DataManagement;
 
-interface BatchMovement extends DataManagement{
-
-}
+interface BatchMovement extends DataManagement {}

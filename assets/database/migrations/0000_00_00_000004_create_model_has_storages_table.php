@@ -3,16 +3,17 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Zahzah\ModuleWarehouse\Models\Storage\ModelHasStorage;
-use Zahzah\ModuleWarehouse\Models\Storage\Storage;
+use Hanafalah\ModuleWarehouse\Models\Storage\ModelHasStorage;
+use Hanafalah\ModuleWarehouse\Models\Storage\Storage;
 
 return new class extends Migration
 {
-   use Zahzah\LaravelSupport\Concerns\NowYouSeeMe;
+    use Hanafalah\LaravelSupport\Concerns\NowYouSeeMe;
 
     private $__table;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->__table = app(config('database.models.ModelHasStorage;', ModelHasStorage::class));
     }
 
@@ -24,24 +25,24 @@ return new class extends Migration
     public function up(): void
     {
         $table_name = $this->__table->getTable();
-        if (!$this->isTableExists()){
+        if (!$this->isTableExists()) {
             Schema::create($table_name, function (Blueprint $table) {
                 $storage = app(config('database.models.Storage', Storage::class));
 
                 $table->id();
-                $table->string('model_type',50)->nullable(false);
-                $table->string('model_id',36)->nullable(false);
+                $table->string('model_type', 50)->nullable(false);
+                $table->string('model_id', 36)->nullable(false);
 
                 $table->foreignIdFor($storage::class)->nullable(false)
-                      ->index()->constrained()
-                      ->cascadeOnUpdate()->restrictOnDelete();
+                    ->index()->constrained()
+                    ->cascadeOnUpdate()->restrictOnDelete();
 
-                $table->string('name',50)->nullable(false);
+                $table->string('name', 50)->nullable(false);
                 $table->timestamps();
                 $table->softDeletes();
 
-                $table->index(['model_type','model_id',$storage->getForeignKey()],'model_strg_mhs');
-                $table->index(['model_type','model_id'],'model_mhs');
+                $table->index(['model_type', 'model_id', $storage->getForeignKey()], 'model_strg_mhs');
+                $table->index(['model_type', 'model_id'], 'model_mhs');
             });
         }
     }

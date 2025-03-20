@@ -1,28 +1,37 @@
 <?php
 
-namespace Zahzah\ModuleWarehouse\Models\Building;
+namespace Hanafalah\ModuleWarehouse\Models\Building;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Zahzah\LaravelSupport\Models\BaseModel;
-use Zahzah\ModuleWarehouse\Resources\Building\ViewBuilding;
+use Hanafalah\LaravelSupport\Models\BaseModel;
+use Hanafalah\ModuleWarehouse\Resources\Building\ViewBuilding;
 
-class Building extends BaseModel{
+class Building extends BaseModel
+{
     use SoftDeletes;
 
-    protected $list = ['id','name'];
+    protected $list = ['id', 'name'];
 
     protected $casts = [
         'name' => 'string'
     ];
 
-    public function toViewApi(){
+    public function toViewApi()
+    {
         return new ViewBuilding($this);
     }
 
-    public function toShowApi(){
+    public function toShowApi()
+    {
         return new ViewBuilding($this);
     }
 
-    public function room(){return $this->hasOneModel('room');}
-    public function rooms(){return $this->hasManyModel('Building');}
+    public function room()
+    {
+        return $this->hasOneModel('room');
+    }
+    public function rooms()
+    {
+        return $this->hasManyModel('Building');
+    }
 }

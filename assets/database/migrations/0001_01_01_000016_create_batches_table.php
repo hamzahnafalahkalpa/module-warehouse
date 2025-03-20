@@ -3,11 +3,11 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Zahzah\ModuleWarehouse\Models\Stock\Batch;
+use Hanafalah\ModuleWarehouse\Models\Stock\Batch;
 
 return new class extends Migration
 {
-    use Zahzah\LaravelSupport\Concerns\NowYouSeeMe;
+    use Hanafalah\LaravelSupport\Concerns\NowYouSeeMe;
 
     private $__table;
 
@@ -27,8 +27,8 @@ return new class extends Migration
         if (!$this->isTableExists()) {
             Schema::create($table_name, function (Blueprint $table) {
                 $table->ulid('id')->primary();
-                $table->string('batch_no',100)->nullable(false);
-                $table->string('expired_at',20)->nullable(false)->comment('Y-m-d, Y-m, Y');
+                $table->string('batch_no', 100)->nullable(false);
+                $table->string('expired_at', 20)->nullable(false)->comment('Y-m-d, Y-m, Y');
                 $table->timestamps();
             });
         }

@@ -1,17 +1,23 @@
 <?php
 
-namespace Zahzah\ModuleWarehouse\Concerns\Building;
+namespace Hanafalah\ModuleWarehouse\Concerns\Building;
 
-trait HasRoom{
-    protected function initializeHasRoom(){
+trait HasRoom
+{
+    protected function initializeHasRoom()
+    {
         $this->mergeFillable([
             $this->getRoomForeignKey()
         ]);
     }
 
-    protected function getRoomForeignKey(){
+    protected function getRoomForeignKey()
+    {
         return $this->RoomModel()->getForeignKey();
     }
 
-    public function room(){return $this->belongsToModel('Room');}
+    public function room()
+    {
+        return $this->belongsToModel('Room');
+    }
 }

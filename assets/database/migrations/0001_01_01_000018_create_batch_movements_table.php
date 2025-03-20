@@ -3,14 +3,14 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Zahzah\ModuleWarehouse\Models\Stock\Batch;
-use Zahzah\ModuleWarehouse\Models\Stock\BatchMovement;
-use Zahzah\ModuleWarehouse\Models\Stock\StockBatch;
-use Zahzah\ModuleWarehouse\Models\Stock\StockMovement;
+use Hanafalah\ModuleWarehouse\Models\Stock\Batch;
+use Hanafalah\ModuleWarehouse\Models\Stock\BatchMovement;
+use Hanafalah\ModuleWarehouse\Models\Stock\StockBatch;
+use Hanafalah\ModuleWarehouse\Models\Stock\StockMovement;
 
 return new class extends Migration
 {
-    use Zahzah\LaravelSupport\Concerns\NowYouSeeMe;
+    use Hanafalah\LaravelSupport\Concerns\NowYouSeeMe;
 
     private $__table;
 
@@ -35,26 +35,26 @@ return new class extends Migration
 
                 $table->ulid('id')->primary();
                 $table->foreignIdFor($stock_movement::class)->nullable(false)
-                      ->index()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+                    ->index()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
 
                 $table->foreignIdFor($batch::class)->nullable(false)
-                      ->index()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+                    ->index()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
 
                 $table->foreignIdFor($stock_batch::class)->nullable(false)
-                      ->index()->constrained()->restrictOnDelete()->cascadeOnUpdate();
+                    ->index()->constrained()->restrictOnDelete()->cascadeOnUpdate();
 
-                $table->decimal('qty',14,6)->default(0)->nullable(false);
-                $table->decimal('opening_stock',14,6)->default(0)->nullable(true);
-                $table->decimal('closing_stock',14,6)->default(0)->nullable(true);
+                $table->decimal('qty', 14, 6)->default(0)->nullable(false);
+                $table->decimal('opening_stock', 14, 6)->default(0)->nullable(true);
+                $table->decimal('closing_stock', 14, 6)->default(0)->nullable(true);
                 $table->json('props')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });
 
             Schema::table($table_name, function (Blueprint $table) use ($table_name) {
-                $table->foreignIdFor($this->__table,'parent_id')
-                        ->nullable()->after($this->__table->getKeyName())
-                        ->index()->constrained()->restrictOnDelete()->cascadeOnUpdate();
+                $table->foreignIdFor($this->__table, 'parent_id')
+                    ->nullable()->after($this->__table->getKeyName())
+                    ->index()->constrained()->restrictOnDelete()->cascadeOnUpdate();
             });
         }
     }

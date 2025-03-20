@@ -1,15 +1,16 @@
 <?php
 
-namespace Zahzah\ModuleWarehouse\Schemas;
+namespace Hanafalah\ModuleWarehouse\Schemas;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Zahzah\LaravelSupport\Supports\PackageManagement;
-use Zahzah\ModuleWarehouse\Contracts\Batch as ContractsBatch;
-use Zahzah\ModuleWarehouse\Resources\Batch as ResourcesBatch;
+use Hanafalah\LaravelSupport\Supports\PackageManagement;
+use Hanafalah\ModuleWarehouse\Contracts\Batch as ContractsBatch;
+use Hanafalah\ModuleWarehouse\Resources\Batch as ResourcesBatch;
 
-class Batch extends PackageManagement implements ContractsBatch{
-    protected array $__guard   = ['batch_no','expired_at'];
+class Batch extends PackageManagement implements ContractsBatch
+{
+    protected array $__guard   = ['batch_no', 'expired_at'];
     protected array $__add     = [];
     protected string $__entity = 'Batch';
 
@@ -19,7 +20,8 @@ class Batch extends PackageManagement implements ContractsBatch{
         'view' => ResourcesBatch\ViewBatch::class
     ];
 
-    public function prepareStoreBatch(? array $attributes = null): Model{
+    public function prepareStoreBatch(?array $attributes = null): Model
+    {
         $attributes ??= request()->all();
 
         $batch = $this->batch()->firstOrCreate([
@@ -31,11 +33,13 @@ class Batch extends PackageManagement implements ContractsBatch{
         return $batch;
     }
 
-    public function getBatch():? Model{
+    public function getBatch(): ?Model
+    {
         return static::$batch_model;
     }
 
-    public function batch(mixed $conditionals = null): Builder{
+    public function batch(mixed $conditionals = null): Builder
+    {
         $this->booting();
         return $this->BatchModel()->conditionals($conditionals);
     }

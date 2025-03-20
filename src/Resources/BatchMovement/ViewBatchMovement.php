@@ -1,8 +1,8 @@
 <?php
 
-namespace Zahzah\ModuleWarehouse\Resources\BatchMovement;
+namespace Hanafalah\ModuleWarehouse\Resources\BatchMovement;
 
-use Zahzah\LaravelSupport\Resources\ApiResource;
+use Hanafalah\LaravelSupport\Resources\ApiResource;
 
 class ViewBatchMovement extends ApiResource
 {
@@ -12,14 +12,15 @@ class ViewBatchMovement extends ApiResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray(\Illuminate\Http\Request $request) : array{
+    public function toArray(\Illuminate\Http\Request $request): array
+    {
         $arr = [
             'id'    => $this->id,
             'parent_id' => $this->parent_id,
-            'batch' => $this->relationValidation('batch',function(){
+            'batch' => $this->relationValidation('batch', function () {
                 return $this->batch->toViewApi();
             }),
-            'stock_batch' => $this->relationValidation('stockBatch',function(){
+            'stock_batch' => $this->relationValidation('stockBatch', function () {
                 return $this->stockBatch->toViewApi();
             }),
             'qty'   => $this->qty,
@@ -27,7 +28,7 @@ class ViewBatchMovement extends ApiResource
             'closing_stock' => $this->closing_stock,
             'changes_stock' => abs($this->closing_stock - $this->opening_stock)
         ];
-        
+
         return $arr;
-  }
+    }
 }

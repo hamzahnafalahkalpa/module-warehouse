@@ -1,15 +1,16 @@
 <?php
 
-namespace Zahzah\ModuleWarehouse\Schemas;
+namespace Hanafalah\ModuleWarehouse\Schemas;
 
 use Illuminate\Database\Eloquent\Model;
-use Zahzah\LaravelSupport\Supports\PackageManagement;
-use Zahzah\ModuleWarehouse\{
+use Hanafalah\LaravelSupport\Supports\PackageManagement;
+use Hanafalah\ModuleWarehouse\{
     Contracts\StockMovement as ContractsStockMovement,
     Resources\StockMovement as ResourcesStockMovement
 };
 
-class StockMovement extends PackageManagement implements ContractsStockMovement{
+class StockMovement extends PackageManagement implements ContractsStockMovement
+{
     protected array $__guard   = [];
     protected array $__add     = [];
     protected string $__entity = 'StockMovement';
@@ -21,20 +22,22 @@ class StockMovement extends PackageManagement implements ContractsStockMovement{
         'show' => ResourcesStockMovement\ShowStockMovement::class
     ];
 
-    public function getStockMovement():? Model{
+    public function getStockMovement(): ?Model
+    {
         return static::$stock_movement_model;
     }
 
-    public function prepareStoreStockMovement(? array $attributes = null): Model{        
+    public function prepareStoreStockMovement(?array $attributes = null): Model
+    {
         $attributes ??= request()->all();
-        if (isset($attributes['id'])){
+        if (isset($attributes['id'])) {
             $guard = ['id' => $attributes['id']];
-        }else{
-            if (!isset($attributes['item_stock_id'])){
+        } else {
+            if (!isset($attributes['item_stock_id'])) {
                 if (!isset($attributes['warehouse_id'])) throw new \Exception('warehouse_id is required when item_stock_id is not provided');
                 $warehouse = app(config('module-warehouse.warehouse'))->find($attributes['warehouse_id']);
                 if (!isset($warehouse)) throw new \Exception('warehouse does not exist');
-    
+
                 $card_stock = $this->CardStockModel()->find($attributes['card_stock_id']);
                 if (!isset($card_stock)) throw new \Exception('card_stock does not exist');
 
@@ -44,11 +47,11 @@ class StockMovement extends PackageManagement implements ContractsStockMovement{
                     'warehouse_id'   => $warehouse->getKey(),
                     'warehouse_type' => $warehouse->getMorphClass(),
                     'funding_id'     => $attributes['funding_id'] ?? null
-                ],[
+                ], [
                     'stock'          => 0
                 ]);
                 $attributes['item_stock_id'] = $item_stock->getKey();
-            }else{
+            } else {
                 $item_stock = $this->ItemStockModel()->find($attributes['item_stock_id']);
                 if (!isset($item_stock)) throw new \Exception('item_stock does not exist');
             }
@@ -66,17 +69,17 @@ class StockMovement extends PackageManagement implements ContractsStockMovement{
             ];
         }
 
-        $stock_movement = $this->StockMovementModel()->updateOrCreate($guard,[            
+        $stock_movement = $this->StockMovementModel()->updateOrCreate($guard, [
             'qty'                   => $attributes['qty'] ?? 0,
             'opening_stock'         => $attributes['opening_stock'] ?? 0,
             'closing_stock'         => $attributes['closing_stock'] ?? 0,
         ]);
 
-        if (isset($attributes['margin'])){
+        if (isset($attributes['margin'])) {
             $stock_movement->margin = intval($attributes['margin']);
         }
 
-        if (isset($attributes['batch_movements']) && count($attributes['batch_movements']) > 0){
+        if (isset($attributes['batch_movements']) && count($attributes['batch_movements']) > 0) {
             $batch_movement_schema = $this->schemaContract('batch_movement');
             foreach ($attributes['batch_movements'] as $batch_movement) {
                 $batch_movement_schema->prepareStoreBatchMovement([

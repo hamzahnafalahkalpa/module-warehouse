@@ -3,18 +3,20 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Zahzah\ModuleWarehouse\Models\Stock\{
+use Hanafalah\ModuleWarehouse\Models\Stock\{
     Batch,
-    StockBatch, Stock
+    StockBatch,
+    Stock
 };
 
 return new class extends Migration
 {
-   use Zahzah\LaravelSupport\Concerns\NowYouSeeMe;
+    use Hanafalah\LaravelSupport\Concerns\NowYouSeeMe;
 
     private $__table;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->__table = app(config('database.models.StockBatch', StockBatch::class));
     }
 
@@ -26,31 +28,31 @@ return new class extends Migration
     public function up(): void
     {
         $table_name = $this->__table->getTable();
-        if (!$this->isTableExists()){
+        if (!$this->isTableExists()) {
             Schema::create($table_name, function (Blueprint $table) {
-                $stock = app(config('database.models.Stock',Stock::class));
-                $batch = app(config('database.models.Batch',Batch::class));
+                $stock = app(config('database.models.Stock', Stock::class));
+                $batch = app(config('database.models.Batch', Batch::class));
 
                 $table->ulid('id')->primary();
                 $table->foreignIdFor($stock::class)->nullable(false)
-                      ->index()->constrained()
-                      ->restrictOnDelete()
-                      ->cascadeOnUpdate();
-                    
-                $table->foreignIdFor($batch::class)->nullable(false)
-                      ->index()->constrained()
-                      ->restrictOnDelete()
-                      ->cascadeOnUpdate();
+                    ->index()->constrained()
+                    ->restrictOnDelete()
+                    ->cascadeOnUpdate();
 
-                $table->decimal('stock',12,4)->nullable(false);
+                $table->foreignIdFor($batch::class)->nullable(false)
+                    ->index()->constrained()
+                    ->restrictOnDelete()
+                    ->cascadeOnUpdate();
+
+                $table->decimal('stock', 12, 4)->nullable(false);
                 $table->timestamps();
                 $table->softDeletes();
             });
 
             Schema::table($table_name, function (Blueprint $table) use ($table_name) {
-                $table->foreignIdFor($this->__table,'parent_id')
-                        ->nullable()->after($this->__table->getKeyName())
-                        ->index()->constrained()->restrictOnDelete()->cascadeOnUpdate();
+                $table->foreignIdFor($this->__table, 'parent_id')
+                    ->nullable()->after($this->__table->getKeyName())
+                    ->index()->constrained()->restrictOnDelete()->cascadeOnUpdate();
             });
         }
     }

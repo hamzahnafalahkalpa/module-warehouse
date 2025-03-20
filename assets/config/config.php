@@ -1,11 +1,11 @@
-<?php 
+<?php
 
-use Zahzah\ModuleWarehouse\{
+use Hanafalah\ModuleWarehouse\{
     Models as ModuleWarehouseModels,
     Contracts
 };
 
-return [    
+return [
     'contracts' => [
         'building'           => Contracts\Building::class,
         'room'               => Contracts\Room::class,

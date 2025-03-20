@@ -1,21 +1,22 @@
 <?php
 
-use Gii\ModuleItem\Models\CardStock;
-use Gii\ModuleItem\Models\ItemStock;
-use Gii\ModuleItem\Models\ItemStuff;
-use Zahzah\ModuleWarehouse\Models\Stock\StockMovement;
+use Hanafalah\ModuleItem\Models\CardStock;
+use Hanafalah\ModuleItem\Models\ItemStock;
+use Hanafalah\ModuleItem\Models\ItemStuff;
+use Hanafalah\ModuleWarehouse\Models\Stock\StockMovement;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Zahzah\ModuleWarehouse\Models\Stock\GoodsReceiptUnit;
+use Hanafalah\ModuleWarehouse\Models\Stock\GoodsReceiptUnit;
 
 return new class extends Migration
 {
-    use Zahzah\LaravelSupport\Concerns\NowYouSeeMe;
+    use Hanafalah\LaravelSupport\Concerns\NowYouSeeMe;
 
     private $__table;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->__table = app(config('database.models.StockMovement', StockMovement::class));
     }
 
@@ -37,22 +38,22 @@ return new class extends Migration
 
                 $table->ulid('id')->primary();
                 $table->foreignIdFor($card_stock::class)->nullable(false)
-                      ->index()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+                    ->index()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->string('reference_type', 50);
                 $table->string('reference_id', 36);
                 $table->foreignIdFor($item_stock::class)->nullable(true)
-                      ->index()->constrained()->restrictOnDelete()->cascadeOnUpdate();
+                    ->index()->constrained()->restrictOnDelete()->cascadeOnUpdate();
 
                 $table->foreignIdFor($goods::class)->nullable(true)
-                      ->index()->constrained($goods->getTable(),'id','gds_stck')->restrictOnDelete()->cascadeOnUpdate();
+                    ->index()->constrained($goods->getTable(), 'id', 'gds_stck')->restrictOnDelete()->cascadeOnUpdate();
 
-                $table->decimal('qty',14,6)->default(0)->nullable(false);
-                $table->foreignIdFor($item_stuff::class,'qty_unit_id')->nullable(true)
-                      ->index()->constrained($item_stuff->getTable(),'qty_unit_id','idx_stuff_unit')
-                      ->restrictOnDelete()->cascadeOnUpdate();
+                $table->decimal('qty', 14, 6)->default(0)->nullable(false);
+                $table->foreignIdFor($item_stuff::class, 'qty_unit_id')->nullable(true)
+                    ->index()->constrained($item_stuff->getTable(), 'qty_unit_id', 'idx_stuff_unit')
+                    ->restrictOnDelete()->cascadeOnUpdate();
 
-                $table->decimal('opening_stock',14,6)->default(0)->nullable(true);
-                $table->decimal('closing_stock',14,6)->default(0)->nullable(true);
+                $table->decimal('opening_stock', 14, 6)->default(0)->nullable(true);
+                $table->decimal('closing_stock', 14, 6)->default(0)->nullable(true);
                 $table->unsignedTinyInteger('direction')->nullable(false);
 
                 $table->json('props')->nullable();
@@ -64,9 +65,9 @@ return new class extends Migration
             });
 
             Schema::table($table_name, function (Blueprint $table) use ($table_name) {
-                $table->foreignIdFor($this->__table,'parent_id')
-                        ->nullable()->after($this->__table->getKeyName())
-                        ->index()->constrained()->restrictOnDelete()->cascadeOnUpdate();
+                $table->foreignIdFor($this->__table, 'parent_id')
+                    ->nullable()->after($this->__table->getKeyName())
+                    ->index()->constrained()->restrictOnDelete()->cascadeOnUpdate();
             });
         }
     }

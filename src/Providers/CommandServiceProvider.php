@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Zahzah\ModuleWarehouse\Providers;
+namespace Hanafalah\ModuleWarehouse\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Zahzah\ModuleWarehouse\Commands as Commands;
+use Hanafalah\ModuleWarehouse\Commands as Commands;
 
 class CommandServiceProvider extends ServiceProvider
 {
@@ -14,7 +14,8 @@ class CommandServiceProvider extends ServiceProvider
     ];
 
 
-    public function register(){
+    public function register()
+    {
         $this->commands(config('module-warehouse.commands', $this->commands));
     }
     /**

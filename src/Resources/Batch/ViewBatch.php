@@ -1,8 +1,8 @@
 <?php
 
-namespace Zahzah\ModuleWarehouse\Resources\Batch;
+namespace Hanafalah\ModuleWarehouse\Resources\Batch;
 
-use Zahzah\LaravelSupport\Resources\ApiResource;
+use Hanafalah\LaravelSupport\Resources\ApiResource;
 
 class ViewBatch extends ApiResource
 {
@@ -12,7 +12,8 @@ class ViewBatch extends ApiResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray(\Illuminate\Http\Request $request) : array{
+    public function toArray(\Illuminate\Http\Request $request): array
+    {
         $arr = [
             'id'         => $this->id,
             'batch_no'   => $this->batch_no,
@@ -20,7 +21,7 @@ class ViewBatch extends ApiResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];
-        
+
         return $arr;
-  }
+    }
 }

@@ -6,16 +6,23 @@ use Hanafalah\ModuleWarehouse\{
 };
 
 return [
-    'contracts' => [
-        'building'           => Contracts\Building::class,
-        'room'               => Contracts\Room::class,
-        'stock'              => Contracts\Stock::class,
-        'batch'              => Contracts\Batch::class,
-        'stock_movement'     => Contracts\StockMovement::class,
-        'batch_movement'     => Contracts\BatchMovement::class,
-        'model_has_room'     => Contracts\ModelHasRoom::class,
-        'stock_batch'        => Contracts\StockBatch::class,
-        'goods_receipt_unit' => Contracts\GoodsReceiptUnit::class
+    'app' => [
+        'contracts' => [
+            //ADD YOUR CONTRACTS HERE
+            'building'           => Contracts\Building::class,
+            'room'               => Contracts\Room::class,
+            'stock'              => Contracts\Stock::class,
+            'batch'              => Contracts\Batch::class,
+            'stock_movement'     => Contracts\StockMovement::class,
+            'batch_movement'     => Contracts\BatchMovement::class,
+            'model_has_room'     => Contracts\ModelHasRoom::class,
+            'stock_batch'        => Contracts\StockBatch::class,
+            'goods_receipt_unit' => Contracts\GoodsReceiptUnit::class
+        ],
+    ],
+    'libs' => [
+        'model' => 'Models',
+        'contract' => 'Contracts'
     ],
     'database' => [
         'models' => [

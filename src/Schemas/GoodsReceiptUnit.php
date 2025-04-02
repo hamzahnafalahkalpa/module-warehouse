@@ -5,7 +5,7 @@ namespace Hanafalah\ModuleWarehouse\Schemas;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Hanafalah\LaravelSupport\Supports\PackageManagement;
-use Hanafalah\ModuleWarehouse\Contracts\GoodsReceiptUnit as ContractGoods;
+use Hanafalah\ModuleWarehouse\Contracts\Schemas\GoodsReceiptUnit as ContractGoods;
 use Hanafalah\ModuleWarehouse\Resources\GoodsReceiptUnit as ResourcesGoods;
 
 class GoodsReceiptUnit extends PackageManagement implements ContractGoods

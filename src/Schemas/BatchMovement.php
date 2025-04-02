@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Hanafalah\LaravelSupport\Supports\PackageManagement;
 use Hanafalah\ModuleWarehouse\{
-    Contracts\BatchMovement as ContractsBatchMovement,
+    Contracts\Schemas\BatchMovement as ContractsBatchMovement,
     Resources\BatchMovement as ResourcesBatchMovement
 };
 

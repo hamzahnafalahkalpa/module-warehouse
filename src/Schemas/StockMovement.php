@@ -5,7 +5,7 @@ namespace Hanafalah\ModuleWarehouse\Schemas;
 use Illuminate\Database\Eloquent\Model;
 use Hanafalah\LaravelSupport\Supports\PackageManagement;
 use Hanafalah\ModuleWarehouse\{
-    Contracts\StockMovement as ContractsStockMovement,
+    Contracts\Schemas\StockMovement as ContractsStockMovement,
     Resources\StockMovement as ResourcesStockMovement
 };
 

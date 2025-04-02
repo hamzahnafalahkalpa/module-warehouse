@@ -5,7 +5,7 @@ namespace Hanafalah\ModuleWarehouse\Schemas;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Hanafalah\LaravelSupport\Supports\PackageManagement;
-use Hanafalah\ModuleWarehouse\Contracts\Batch as ContractsBatch;
+use Hanafalah\ModuleWarehouse\Contracts\Schemas\Batch as ContractsBatch;
 use Hanafalah\ModuleWarehouse\Resources\Batch as ResourcesBatch;
 
 class Batch extends PackageManagement implements ContractsBatch

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Hanafalah\LaravelSupport\Supports\PackageManagement;
-use Hanafalah\ModuleWarehouse\Contracts\StockBatch as ContractStockBatch;
+use Hanafalah\ModuleWarehouse\Contracts\Schemas\StockBatch as ContractStockBatch;
 use Hanafalah\ModuleWarehouse\Resources\StockBatch as ResourcesStockBatch;
 
 class StockBatch extends PackageManagement implements ContractStockBatch

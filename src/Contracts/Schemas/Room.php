@@ -1,11 +1,11 @@
 <?php
 
-namespace Hanafalah\ModuleWarehouse\Contracts;
+namespace Hanafalah\ModuleWarehouse\Contracts\Schemas;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
-use Hanafalah\LaravelSupport\Contracts\DataManagement;
+use Hanafalah\LaravelSupport\Contracts\Supports\DataManagement;
 
 interface Room extends DataManagement
 {

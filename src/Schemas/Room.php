@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Hanafalah\LaravelSupport\Supports\PackageManagement;
-use Hanafalah\ModuleWarehouse\Contracts\Room as ContractRoom;
+use Hanafalah\ModuleWarehouse\Contracts\Schemas\Room as ContractRoom;
 use Hanafalah\ModuleWarehouse\Resources\Room as ResourcesRoom;
 
 class Room extends PackageManagement implements ContractRoom

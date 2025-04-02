@@ -1,10 +1,10 @@
 <?php
 
-namespace Hanafalah\ModuleWarehouse\Contracts;
+namespace Hanafalah\ModuleWarehouse\Contracts\Schemas;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Hanafalah\LaravelSupport\Contracts\DataManagement;
+use Hanafalah\LaravelSupport\Contracts\Supports\DataManagement;
 
 interface Building extends DataManagement
 {

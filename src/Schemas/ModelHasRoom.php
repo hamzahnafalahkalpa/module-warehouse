@@ -5,7 +5,7 @@ namespace Hanafalah\ModuleWarehouse\Schemas;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Hanafalah\LaravelSupport\Supports\PackageManagement;
-use Hanafalah\ModuleWarehouse\Contracts\ModelHasRoom as ContractModelHasRoom;
+use Hanafalah\ModuleWarehouse\Contracts\Schemas\ModelHasRoom as ContractModelHasRoom;
 
 class ModelHasRoom extends PackageManagement implements ContractModelHasRoom
 {

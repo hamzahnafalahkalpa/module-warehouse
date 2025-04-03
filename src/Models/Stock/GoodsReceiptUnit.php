@@ -29,14 +29,14 @@ class GoodsReceiptUnit extends BaseModel
         });
     }
 
-    public function toShowApi()
+    public function getShowResource()
     {
-        return new ShowGoodsReceiptUnit($this);
+        return ShowGoodsReceiptUnit::class;
     }
 
-    public function toViewApi()
+    public function getViewResource()
     {
-        return new ViewGoodsReceiptUnit($this);
+        return ViewGoodsReceiptUnit::class;
     }
 
     public function cardStock()

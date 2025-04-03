@@ -32,14 +32,14 @@ class Room extends BaseModel
         });
     }
 
-    public function toShowApi()
+    public function getShowResource()
     {
-        return new ShowRoom($this);
+        return ShowRoom::class;
     }
 
-    public function toViewApi()
+    public function getViewResource()
     {
-        return new ViewRoom($this);
+        return ViewRoom::class;
     }
 
     //SCOPE SECTION

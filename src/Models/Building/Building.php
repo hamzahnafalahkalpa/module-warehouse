@@ -16,14 +16,14 @@ class Building extends BaseModel
         'name' => 'string'
     ];
 
-    public function toViewApi()
+    public function getViewResource()
     {
-        return new ViewBuilding($this);
+        return ViewBuilding::class;
     }
 
-    public function toShowApi()
+    public function getShowResource()
     {
-        return new ViewBuilding($this);
+        return ViewBuilding::class;
     }
 
     public function room()

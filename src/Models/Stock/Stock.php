@@ -59,14 +59,14 @@ class Stock extends MainStock
     //     }
     // }
 
-    public function toViewApi()
+    public function getViewResource()
     {
-        return new ViewStock($this);
+        return ViewStock::class;
     }
 
-    public function toShowApi()
+    public function getShowResource()
     {
-        return new ShowStock($this);
+        return ShowStock::class;
     }
 
     //EIGER SECTION

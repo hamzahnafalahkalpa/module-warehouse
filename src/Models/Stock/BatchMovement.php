@@ -14,14 +14,14 @@ class BatchMovement extends MainMovement
 
     protected $list = ['id', 'parent_id', 'stock_movement_id', 'batch_id', 'qty', 'stock_batch_id', 'opening_stock', 'closing_stock', 'props'];
 
-    public function toShowApi()
+    public function getShowResource()
     {
-        return new ShowBatchMovement($this);
+        return ShowBatchMovement::class;
     }
 
-    public function toViewApi()
+    public function getViewResource()
     {
-        return new ViewBatchMovement($this);
+        return ViewBatchMovement::class;
     }
 
     public function batch()

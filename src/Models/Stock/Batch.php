@@ -18,13 +18,13 @@ class Batch extends BaseModel
     protected $list       = ['id', 'batch_no', 'expired_at'];
     protected $show       = [];
 
-    public function toShowApi()
+    public function getShowResource()
     {
-        return new ViewBatch($this);
+        return ViewBatch::class;
     }
 
-    public function toViewApi()
+    public function getViewResource()
     {
-        return new ViewBatch($this);
+        return ViewBatch::class;
     }
 }

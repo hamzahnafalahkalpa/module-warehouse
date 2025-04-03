@@ -36,14 +36,14 @@ class StockMovement extends MainMovement
         });
     }
 
-    public function toShowApi()
+    public function getShowResource()
     {
-        return new ShowStockMovement($this);
+        return ShowStockMovement::class;
     }
 
-    public function toViewApi()
+    public function getViewResource()
     {
-        return new ViewStockMovement($this);
+        return ViewStockMovement::class;
     }
 
     //SCOPE SECTION

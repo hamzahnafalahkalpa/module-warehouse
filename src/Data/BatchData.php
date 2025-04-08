@@ -9,18 +9,16 @@ use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Attributes\Validation\DateFormat;
 
 class BatchData extends Data implements DataBatchData{
-    public function __construct(
-        #[MapInputName('id')]
-        #[MapName('id')]
-        public mixed $id = null,
+    #[MapInputName('id')]
+    #[MapName('id')]
+    public mixed $id = null;
 
-        #[MapInputName('batch_no')]
-        #[MapName('batch_no')]
-        public ?string $batch_no = null,
+    #[MapInputName('batch_no')]
+    #[MapName('batch_no')]
+    public ?string $batch_no = null;
 
-        #[MapInputName('expired_at')]
-        #[MapName('expired_at')]
-        #[DateFormat('Y-m-d')]
-        public ?string $expired_at = null
-    ){}
+    #[MapInputName('expired_at')]
+    #[MapName('expired_at')]
+    #[DateFormat('Y-m-d')]
+    public ?string $expired_at = null;
 }

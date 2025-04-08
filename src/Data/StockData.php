@@ -10,39 +10,37 @@ use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Attributes\Validation\RequiredWithout;
 
 class StockData extends Data implements DataStockData{
-    public function __construct(
-        #[MapInputName('id')]
-        #[MapName('id')]
-        public mixed $id = null,
+    #[MapInputName('id')]
+    #[MapName('id')]
+    public mixed $id = null;
 
-        #[MapInputName('subject_type')]
-        #[MapName('subject_type')]
-        #[RequiredWithout('id')]
-        public ?string $subject_type = null,
+    #[MapInputName('subject_type')]
+    #[MapName('subject_type')]
+    #[RequiredWithout('id')]
+    public ?string $subject_type = null;
 
-        #[MapInputName('subject_id')]
-        #[MapName('subject_id')]
-        #[RequiredWithout('id')]
-        public mixed $subject_id = null,
+    #[MapInputName('subject_id')]
+    #[MapName('subject_id')]
+    #[RequiredWithout('id')]
+    public mixed $subject_id = null;
 
-        #[MapInputName('warehouse_type')]
-        #[MapName('warehouse_type')]
-        #[RequiredWithout('id')]
-        public ?string $warehouse_type = null,
+    #[MapInputName('warehouse_type')]
+    #[MapName('warehouse_type')]
+    #[RequiredWithout('id')]
+    public ?string $warehouse_type = null;
 
-        #[MapInputName('warehouse_id')]
-        #[MapName('warehouse_id')]
-        #[RequiredWithout('id')]
-        public mixed $warehouse_id = null,
+    #[MapInputName('warehouse_id')]
+    #[MapName('warehouse_id')]
+    #[RequiredWithout('id')]
+    public mixed $warehouse_id = null;
 
-        #[MapInputName('funding_id')]
-        #[MapName('funding_id')]
-        #[RequiredWithout('id')]
-        public mixed $funding_id = null,
+    #[MapInputName('funding_id')]
+    #[MapName('funding_id')]
+    #[RequiredWithout('id')]
+    public mixed $funding_id = null;
 
-        #[MapInputName('stock_batches')]
-        #[MapName('stock_batches')]
-        #[DataCollectionOf(StockBatchData::class)]
-        public ?array $stock_batches = [],
-    ){}
+    #[MapInputName('stock_batches')]
+    #[MapName('stock_batches')]
+    #[DataCollectionOf(StockBatchData::class)]
+    public ?array $stock_batches = [];
 }

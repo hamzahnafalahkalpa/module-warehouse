@@ -21,8 +21,16 @@ class Room extends BaseModel
     ];
 
     protected $casts = [
-        'name' => 'string'
+        'name'          => 'string',
+        'building_name' => 'string'
     ];
+
+    public function getPropsQuery(): array
+    {
+        return [
+            'building_name' => 'props->prop_building->name'
+        ];
+    }
 
     protected static function booted(): void
     {
@@ -32,24 +40,26 @@ class Room extends BaseModel
         });
     }
 
-    public function getShowResource()
-    {
+    public function viewUsingRelation(): array{
+        return [];
+    }
+
+    public function showUsingRelation(): array{
+        return [];
+    }
+
+    public function getShowResource(){
         return ShowRoom::class;
     }
 
-    public function getViewResource()
-    {
+    public function getViewResource(){
         return ViewRoom::class;
     }
 
     //SCOPE SECTION
-    public function scopeInvisible($builder)
-    {
-        return $builder->withoutGlobalScope('visible')->isInvisible();
-    }
+    public function scopeInvisible($builder){return $builder->withoutGlobalScope('visible')->isInvisible();}
 
-    public function scopeIsVisible($builder)
-    {
+    public function scopeIsVisible($builder){
         return $builder->where(function ($query) {
             $query->whereNull($this->getTable() . '.props->visibility')
                 ->orWhere(function ($query) {
@@ -59,8 +69,7 @@ class Room extends BaseModel
         });
     }
 
-    public function scopeIsInvisible($builder)
-    {
+    public function scopeIsInvisible($builder){
         return $builder->where(function ($query) {
             $query->whereNotNull($this->getTable() . '.props->visibility')
                 ->where($this->getTable() . '.props->visibility', false);
@@ -68,29 +77,11 @@ class Room extends BaseModel
     }
 
     //EIGER SECCTION
-    public function building()
-    {
-        return $this->belongsToModel('Building');
-    }
-    public function modelHasService()
-    {
-        return $this->morphOneModel('ModelHasService', "reference");
-    }
-    public function modelHasRoom()
-    {
-        return $this->hasOneModel('ModelHasRoom');
-    }
-    public function modelHasRooms()
-    {
-        return $this->hasManyModel('ModelHasRoom');
-    }
-    public function refModelHasRoom()
-    {
-        return $this->morphOneModel('ModelHasRoom', 'reference');
-    }
-    public function refModelHasRooms()
-    {
-        return $this->morphManyModel('ModelHasRoom', 'reference');
-    }
+    public function building(){return $this->belongsToModel('Building');}
+    public function modelHasService(){return $this->morphOneModel('ModelHasService', "reference");}
+    public function modelHasRoom(){return $this->hasOneModel('ModelHasRoom');}
+    public function modelHasRooms(){return $this->hasManyModel('ModelHasRoom');}
+    public function refModelHasRoom(){return $this->morphOneModel('ModelHasRoom', 'reference');}
+    public function refModelHasRooms(){return $this->morphManyModel('ModelHasRoom', 'reference');}
     //END EIGER SECTION
 }

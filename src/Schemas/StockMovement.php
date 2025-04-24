@@ -35,7 +35,7 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
         } else {
             if (!isset($attributes['item_stock_id'])) {
                 if (!isset($attributes['warehouse_id'])) throw new \Exception('warehouse_id is required when item_stock_id is not provided');
-                $warehouse = app(config('module-warehouse.warehouse'))->find($attributes['warehouse_id']);
+                $warehouse = $this->{config('module-warehouse.warehouse').'Model'}()->find($attributes['warehouse_id']);
                 if (!isset($warehouse)) throw new \Exception('warehouse does not exist');
 
                 $card_stock = $this->CardStockModel()->find($attributes['card_stock_id']);

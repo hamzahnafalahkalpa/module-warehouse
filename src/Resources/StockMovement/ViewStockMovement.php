@@ -39,6 +39,7 @@ class ViewStockMovement extends ApiResource
             'opening_stock' => $this->opening_stock,
             'closing_stock' => $this->closing_stock,
             'changes_stock' => abs($this->closing_stock - $this->opening_stock),
+            'margin'        => $this->margin,
             'props'         => $props == [] ? null : $props
         ];
 

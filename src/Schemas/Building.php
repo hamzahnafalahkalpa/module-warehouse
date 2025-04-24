@@ -3,23 +3,15 @@
 namespace Hanafalah\ModuleWarehouse\Schemas;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Hanafalah\LaravelSupport\Supports\PackageManagement;
+use Hanafalah\ModuleWarehouse\Contracts\Data\BuildingData;
 use Hanafalah\ModuleWarehouse\Contracts\Schemas\Building as ContractBuilding;
-use Hanafalah\ModuleWarehouse\Resources\Building\ViewBuilding;
 
 class Building extends PackageManagement implements ContractBuilding
 {
-    protected array $__guard   = ['id'];
-    protected array $__add     = ['name'];
     protected string $__entity = 'Building';
     public static $building_model;
-
-    protected array $__resources = [
-        'view' => ViewBuilding::class,
-        'show' => ViewBuilding::class
-    ];
 
     protected array $__cache = [
         'index' => [
@@ -29,90 +21,28 @@ class Building extends PackageManagement implements ContractBuilding
         ]
     ];
 
-    public function prepareViewBuildingList(?array $attributes = null): Collection
-    {
-        $attributes ??= request()->all();
-
-        return static::$building_model = $this->cacheWhen(!$this->isSearch(), $this->__cache['index'], function () {
-            return $this->building()->get();
-        });
-    }
-
-    public function viewBuildingList(): array
-    {
-        return $this->transforming($this->__resources['view'], function () {
-            return $this->prepareViewBuildingList();
-        });
-    }
-
-    public function showUsingRelation(): array
-    {
-        return [];
-    }
-
-    public function prepareShowBuilding(?Model $model = null, array $attributes = null): Model
-    {
-        $attributes ??= request()->all();
-        $model ??= $this->getBuilding();
-
-        if (!isset($model)) {
-            $id = $attributes['id'] ?? null;
-            if (!isset($id)) throw new \Exception('No building id provided', 422);
-
-            $model = $this->building()->with($this->showUsingRelation())->find($id);
-        } else {
-            $model->load($this->showUsingRelation());
+    public function prepareStoreBuilding(BuildingData $building_dto): Model{
+        if (isset($building_dto->id)){
+            $guard = ['id' => $building_dto->id];
+            $add   = ['name' => $building_dto->name];
+            $create = [$guard,$add];
+        }else{
+            $guard = ['name' => $building_dto->name];
+            $create = [$guard];
         }
-
-        return static::$building_model = $model;
-    }
-
-    public function showBuilding(?Model $model = null): array
-    {
-        return $this->transforming($this->__resources['show'], function () use ($model) {
-            return $this->prepareShowBuilding($model);
-        });
-    }
-
-    public function prepareStoreBuilding(?array $attributes = null): Model
-    {
-        $attributes ??= request()->all();
-
-        $building = $this->BuildingModel()->updateOrCreate([
-            'id' => $attributes['id'] ?? null
-        ], [
-            'name' => $attributes['name']
-        ]);
-
+        $building = $this->BuildingModel()->updateOrCreate(...$create);
         $this->forgetTags('building');
         return static::$building_model = $building;
     }
 
-    public function storeBuilding(): array
-    {
-        return $this->transaction(function () {
-            return $this->showBuilding($this->prepareStoreBuilding());
+    public function storeBuilding(? BuildingData $building_dto = null): array{
+        return $this->transaction(function () use ($building_dto) {
+            return $this->showBuilding($this->prepareStoreBuilding($building_dto ?? $this->requestDTO(BuildingData::class)));
         });
     }
 
-    public function prepareDeleteBuilding(?array $attributes = null): bool
-    {
-        $attributes ??= request()->all();
-        if (!isset($attributes['id'])) throw new \Exception('No id provided', 422);
-        $this->forgetTags('building');
-        return $this->BuildingModel()->destroy($attributes['id']);
-    }
-
-    public function deleteBuilding(): bool
-    {
-        return $this->transaction(function () {
-            return $this->prepareDeleteBuilding();
-        });
-    }
-
-    public function building(): Builder
-    {
+    public function building(mixed $conditionals = null): Builder{
         $this->booting();
-        return $this->BuildingModel()->withParameters()->orderBy('name', 'asc');
+        return $this->BuildingModel()->conditionals($this->mergeCondition($conditionals ?? []))->withParameters()->orderBy('name', 'asc');
     }
 }

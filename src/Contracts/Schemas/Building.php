@@ -5,16 +5,25 @@ namespace Hanafalah\ModuleWarehouse\Contracts\Schemas;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Hanafalah\LaravelSupport\Contracts\Supports\DataManagement;
+use Hanafalah\ModuleWarehouse\Contracts\Data\BuildingData;
+use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * @see \Hanafalah\ModuleWarehouse\Schemas\Building
+ * @method bool deleteBuilding()
+ * @method bool prepareDeleteBuilding(? array $attributes = null)
+ * @method mixed getBuilding()
+ * @method ?Model prepareShowBuilding(?Model $model = null, ?array $attributes = null)
+ * @method array showBuilding(?Model $model = null)
+ * @method Collection prepareViewBuildingList()
+ * @method array viewBuildingList()
+ * @method LengthAwarePaginator prepareViewBuildingPaginate(PaginateData $paginate_dto)
+ * @method array viewBuildingPaginate(?PaginateData $paginate_dto = null)
+ */
 interface Building extends DataManagement
 {
-    public function prepareViewBuildingList(?array $attributes = null): Collection;
-    public function viewBuildingList(): array;
-    public function showUsingRelation(): array;
-    public function prepareShowBuilding(?Model $model = null, array $attributes = null): Model;
-    public function showBuilding(?Model $model = null): array;
-    public function prepareStoreBuilding(?array $attributes = null): Model;
-    public function storeBuilding(): array;
-    public function prepareDeleteBuilding(?array $attributes = null): bool;
-    public function deleteBuilding(): bool;
+    public function prepareStoreBuilding(BuildingData $building_dto): Model;
+    public function storeBuilding(? BuildingData $building_dto = null): array;
+    public function building(mixed $conditionals = null): Builder;
+    
 }

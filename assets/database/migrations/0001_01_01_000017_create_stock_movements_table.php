@@ -54,7 +54,7 @@ return new class extends Migration
 
                 $table->decimal('opening_stock', 14, 6)->default(0)->nullable(true);
                 $table->decimal('closing_stock', 14, 6)->default(0)->nullable(true);
-                $table->unsignedTinyInteger('direction')->nullable(false);
+                $table->string('direction',50)->nullable(false);
 
                 $table->json('props')->nullable();
                 $table->timestamps();

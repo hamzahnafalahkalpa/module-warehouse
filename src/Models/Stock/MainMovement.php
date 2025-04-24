@@ -10,13 +10,6 @@ class MainMovement extends BaseModel
 {
     use HasUlids, SoftDeletes;
 
-    const OUT    = 0;
-    const IN     = 1;
-    const OPNAME = 2;
-
-    const METHOD_AVERAGE = "AVERAGE";
-    const METHOD_MIN     = "MIN";
-    const METHOD_MAX     = "MAX";
     public $incrementing  = false;
     protected $primaryKey = 'id';
     protected $keyType    = 'string';

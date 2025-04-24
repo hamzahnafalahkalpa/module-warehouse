@@ -16,22 +16,22 @@ class Building extends BaseModel
         'name' => 'string'
     ];
 
-    public function getViewResource()
-    {
+    public function viewUsingRelation(): array{
+        return [];
+    }
+    
+    public function showUsingRelation(): array{
+        return [];
+    }
+
+    public function getViewResource(){
         return ViewBuilding::class;
     }
 
-    public function getShowResource()
-    {
+    public function getShowResource(){
         return ViewBuilding::class;
     }
 
-    public function room()
-    {
-        return $this->hasOneModel('room');
-    }
-    public function rooms()
-    {
-        return $this->hasManyModel('Building');
-    }
+    public function room(){return $this->hasOneModel('room');}
+    public function rooms(){return $this->hasManyModel('Building');}
 }

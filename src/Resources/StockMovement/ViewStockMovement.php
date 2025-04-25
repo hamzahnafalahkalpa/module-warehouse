@@ -14,13 +14,11 @@ class ViewStockMovement extends ApiResource
      */
     public function toArray(\Illuminate\Http\Request $request): array
     {
-        $props = $this->getOriginal()['props'];
+        // $props = $this->getOriginal()['props'];
         $arr = [
             'id'            => $this->id,
             'parent_id'     => $this->parent_id,
-            'reference'     => $this->relationValidation('reference', function () {
-                return $this->reference->toViewApi();
-            }),
+            'reference'     => $this->prop_reference,
             'batch_movements' => $this->relationValidation('batchMovements', function () {
                 return $this->batchMovements->transform(function ($batchMovement) {
                     return $batchMovement->toViewApi();
@@ -34,13 +32,19 @@ class ViewStockMovement extends ApiResource
                     return $child->toViewApi();
                 });
             }),
+            'warehouse'     => $this->prop_warehouse,
+            'funding'       => $this->prop_funding,
             'direction'     => $this->direction,
             'qty'           => $this->qty,
+            'qty_unit'      => $this->prop_qty_unit,
+            'price'         => $this->price,
+            'cogs'          => $this->cogs,
+            'total_cogs'    => $this->total_cogs,
             'opening_stock' => $this->opening_stock,
             'closing_stock' => $this->closing_stock,
             'changes_stock' => abs($this->closing_stock - $this->opening_stock),
             'margin'        => $this->margin,
-            'props'         => $props == [] ? null : $props
+            // 'props'         => $props == [] ? null : $props
         ];
 
         return $arr;

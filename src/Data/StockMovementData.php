@@ -5,6 +5,7 @@ namespace Hanafalah\ModuleWarehouse\Data;
 use Hanafalah\LaravelSupport\Supports\Data;
 use Hanafalah\ModuleItem\Contracts\Data\GoodsReceiptUnitData;
 use Hanafalah\ModuleWarehouse\Contracts\Data\StockMovementData as DataStockMovementData;
+use Hanafalah\ModuleWarehouse\Contracts\Data\StockMovementPropsData;
 use Hanafalah\ModuleWarehouse\Enums\MainMovement\Direction;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Attributes\MapInputName;
@@ -76,18 +77,28 @@ class StockMovementData extends Data implements DataStockMovementData{
 
     #[MapInputName('props')]
     #[MapName('props')]
-    public ?array $props = null;
+    public ?StockMovementPropsData $props = null;
 
     public static function after(StockMovementData $data): StockMovementData{
-        $data->props['prop_qty_unit'] = [
+        $props = &$data->props->props;
+        $props['prop_qty_unit'] = [
             'id'    => $data->qty_unit_id ?? null,
             'flag'  => null,
             'name'  => $data->qty_unit['name'] ?? null
         ];
-        if (isset($data->props['props_qty_unit']['id'])){
-            $unit = self::new()->ItemStuffModel()->findOrFail($data->props['props_qty_unit']['id']);
-            $data->props['props_qty_unit']['flag']   = $unit->flag;
-            $data->props['props_qty_unit']['name'] ??= $unit->name;
+        if (isset($props['props_qty_unit']['id'])){
+            $unit = self::new()->ItemStuffModel()->findOrFail($props['props_qty_unit']['id']);
+            $props['props_qty_unit']['flag']   = $unit->flag;
+            $props['props_qty_unit']['name'] ??= $unit->name;
+        }
+
+        $props['prop_reference'] = [
+            'id'   => $data->reference_id ?? null,
+            'name' => null
+        ];
+        if (isset($props['prop_reference']['id']) && !isset($props['prop_reference']['name'])){
+            $warehouse = self::new()->{$data->reference_type.'Model'}()->findOrFail($props['prop_reference']['id']);
+            $props['prop_reference']['name'] = $warehouse->name;
         }
         return $data;
     }

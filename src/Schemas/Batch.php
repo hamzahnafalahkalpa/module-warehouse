@@ -10,18 +10,10 @@ use Hanafalah\ModuleWarehouse\Resources\Batch as ResourcesBatch;
 
 class Batch extends PackageManagement implements ContractsBatch
 {
-    protected array $__guard   = ['batch_no', 'expired_at'];
-    protected array $__add     = [];
     protected string $__entity = 'Batch';
-
     public static $batch_model;
 
-    protected array $__resources = [
-        'view' => ResourcesBatch\ViewBatch::class
-    ];
-
-    public function prepareStoreBatch(?array $attributes = null): Model
-    {
+    public function prepareStoreBatch(?array $attributes = null): Model{
         $attributes ??= request()->all();
 
         $batch = $this->batch()->firstOrCreate([
@@ -31,16 +23,5 @@ class Batch extends PackageManagement implements ContractsBatch
 
         static::$batch_model = $batch;
         return $batch;
-    }
-
-    public function getBatch(): ?Model
-    {
-        return static::$batch_model;
-    }
-
-    public function batch(mixed $conditionals = null): Builder
-    {
-        $this->booting();
-        return $this->BatchModel()->conditionals($conditionals);
     }
 }

@@ -2,34 +2,18 @@
 
 namespace Hanafalah\ModuleWarehouse\Schemas;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Hanafalah\LaravelSupport\Supports\PackageManagement;
 use Hanafalah\ModuleWarehouse\{
     Contracts\Schemas\BatchMovement as ContractsBatchMovement,
-    Resources\BatchMovement as ResourcesBatchMovement
 };
+use Illuminate\Database\Eloquent\ModelInspector;
 
 class BatchMovement extends PackageManagement implements ContractsBatchMovement
 {
-    protected array $__guard   = [];
-    protected array $__add     = [];
     protected string $__entity = 'BatchMovement';
-
     public static $batch_movement_model;
 
-    protected array $__resources = [
-        'view' => ResourcesBatchMovement\ViewBatchMovement::class,
-        'show' => ResourcesBatchMovement\ShowBatchMovement::class
-    ];
-
-    public function getBatchMovement(): ?Model
-    {
-        return static::$batch_movement_model;
-    }
-
-    public function prepareStoreBatchMovement(?array $attributes = null): Model
-    {
+    public function prepareStoreBatchMovement(?array $attributes = null): ModelInspector{
         $attributes ??= request()->all();
         if (isset($attributes['id'])) {
             $guard = ['id' => $attributes['id']];
@@ -69,11 +53,5 @@ class BatchMovement extends PackageManagement implements ContractsBatchMovement
             'qty' => $attributes['qty'] ?? 0,
         ]);
         return static::$batch_movement_model = $batch_movement;
-    }
-
-    public function batchMovement(): Builder
-    {
-        $this->booting();
-        return $this->BatchMovementModel()->withParameters();
     }
 }

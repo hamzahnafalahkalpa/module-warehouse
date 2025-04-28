@@ -32,7 +32,6 @@ class ViewStockMovement extends ApiResource
                     return $child->toViewApi();
                 });
             }),
-            'warehouse'     => $this->prop_warehouse,
             'funding'       => $this->prop_funding,
             'direction'     => $this->direction,
             'qty'           => $this->qty,

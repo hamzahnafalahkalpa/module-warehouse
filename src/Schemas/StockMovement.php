@@ -64,7 +64,6 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
             'opening_stock'         => $stock_movement_dto->opening_stock ?? 0,
             'closing_stock'         => $stock_movement_dto->closing_stock ?? 0,
         ]);
-
         if (isset($stock_movement_dto->batch_movements) && count($stock_movement_dto->batch_movements) > 0) {
             $batch_movement_schema = $this->schemaContract('batch_movement');
             foreach ($stock_movement_dto->batch_movements as $batch_movement) {

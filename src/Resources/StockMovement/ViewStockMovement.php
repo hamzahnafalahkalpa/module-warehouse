@@ -34,14 +34,14 @@ class ViewStockMovement extends ApiResource
             }),
             'funding'       => $this->prop_funding,
             'direction'     => $this->direction,
-            'qty'           => $this->qty,
+            'qty'           => floatval($this->qty),
             'qty_unit'      => $this->prop_qty_unit,
             'price'         => $this->price,
             'cogs'          => $this->cogs,
             'total_cogs'    => $this->total_cogs,
-            'opening_stock' => $this->opening_stock,
-            'closing_stock' => $this->closing_stock,
-            'changes_stock' => abs($this->closing_stock - $this->opening_stock),
+            'opening_stock' => floatval($this->opening_stock),
+            'closing_stock' => floatval($this->closing_stock),
+            'changes_stock' => floatval(abs($this->closing_stock - $this->opening_stock)),
             'margin'        => $this->margin,
             // 'props'         => $props == [] ? null : $props
         ];

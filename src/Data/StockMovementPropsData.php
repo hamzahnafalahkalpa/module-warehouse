@@ -20,6 +20,10 @@ class StockMovementPropsData extends Data implements DataStockMovementPropsData{
     #[MapName('price')]
     public ?int $price = 0;
 
+    #[MapInputName('cogs')]
+    #[MapName('cogs')]
+    public ?int $cogs = 0;
+
     #[MapInputName('props')]
     #[MapName('props')]
     public ?array $props = null;

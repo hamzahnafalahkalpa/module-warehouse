@@ -23,13 +23,13 @@ class ViewRoom extends ApiResource
       'is_supplier'   => $this->is_supplier == 1 ? true : false,
       "phone"         => $this->phone,
       'building'      => $this->relationValidation('building', function () {
-        return ViewBuilding($this->building);
+        return $this->building->toViewApi();
       }),
+      'class_room' => $this->prop_class_room,
+      'current'    => $this->current,
       'created_at' => $this->created_at,
       'updated_at' => $this->updated_at
     ];
-    if (isset($this->current)) $arr['current'] = $this->current;
-
     return $arr;
   }
 }

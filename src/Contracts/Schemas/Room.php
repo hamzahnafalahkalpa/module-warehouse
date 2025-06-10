@@ -10,7 +10,9 @@ use Hanafalah\ModuleWarehouse\Contracts\Data\RoomData;
 
 /**
  * @see \Hanafalah\ModuleWarehouse\Schemas\Room
+ * @method self conditionals(mixed $conditionals)
  * @method bool deleteRoom()
+ * @method bool prepareDeleteRoom(? array $attributes = null)
  * @method mixed getRoom()
  * @method ?Model prepareShowRoom(?Model $model = null, ?array $attributes = null)
  * @method array showRoom(?Model $model = null)
@@ -18,11 +20,10 @@ use Hanafalah\ModuleWarehouse\Contracts\Data\RoomData;
  * @method array viewRoomList()
  * @method LengthAwarePaginator prepareViewRoomPaginate(PaginateData $paginate_dto)
  * @method array viewRoomPaginate(?PaginateData $paginate_dto = null)
+ * @method array storeRoom(?RoomData $room_dto = null)
+ * @method Builder room(mixed $conditionals = null)
  */
 interface Room extends DataManagement
 {
     public function prepareStoreRoom(RoomData $room_dto): Model;
-    public function storeRoom(? RoomData $room_dto = null): array;
-    public function prepareDeleteRoom(?array $attributes = null): bool;
-    public function room(mixed $conditionals = null): Builder;
 }

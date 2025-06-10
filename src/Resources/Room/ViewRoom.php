@@ -18,17 +18,14 @@ class ViewRoom extends ApiResource
     $arr = [
       'id'            => $this->id,
       'name'          => $this->name,
-      'name_spell'    => $this->name . " Lantai " . $this->floor,
       "floor"         => $this->floor,
       'is_supplier'   => $this->is_supplier == 1 ? true : false,
       "phone"         => $this->phone,
-      'building'      => $this->relationValidation('building', function () {
-        return $this->building->toViewApi();
-      }),
-      'class_room' => $this->prop_class_room,
-      'current'    => $this->current,
-      'created_at' => $this->created_at,
-      'updated_at' => $this->updated_at
+      'building'      => $this->prop_building,
+      'class_room'    => $this->prop_class_room,
+      'current'       => $this->current,
+      'created_at'    => $this->created_at,
+      'updated_at'    => $this->updated_at
     ];
     return $arr;
   }

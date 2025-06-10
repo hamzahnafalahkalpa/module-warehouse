@@ -28,4 +28,17 @@ class RoomData extends Data implements DataRoomData{
     #[MapInputName('props')]
     #[MapName('props')]
     public mixed $props = null;
+
+    public static function after(RoomData $data): RoomData{
+        $data->props['prop_building'] = [
+            'id'   => $data->building_id ?? null,
+            'name' => null
+        ];
+        $new = self::new();
+        if (isset($data->building_id)){
+            $building = $new->BuildingModel()->findOrFail($data->building_id);
+            $data->props['prop_building']['name'] = $building->name;
+        }
+        return $data;
+    }
 }

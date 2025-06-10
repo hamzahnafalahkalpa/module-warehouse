@@ -38,6 +38,9 @@ class Room extends BaseModel
         static::addGlobalScope('visible', function ($query) {
             $query->isVisible();
         });
+        static::deleting(function ($query) {
+            $query->modelHasRoom()->delete();
+        });
     }
 
     public function viewUsingRelation(): array{

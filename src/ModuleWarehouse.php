@@ -4,7 +4,6 @@ namespace Hanafalah\ModuleWarehouse;
 
 use Hanafalah\LaravelSupport\{
     Supports\PackageManagement,
-    Events as SupportEvents
 };
 
 class ModuleWarehouse extends PackageManagement implements Contracts\ModuleWarehouse

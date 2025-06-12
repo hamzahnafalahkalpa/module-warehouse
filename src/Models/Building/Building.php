@@ -2,13 +2,15 @@
 
 namespace Hanafalah\ModuleWarehouse\Models\Building;
 
+use Hanafalah\LaravelSupport\Concerns\Support\HasPhone;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Hanafalah\LaravelSupport\Models\BaseModel;
+use Hanafalah\ModuleRegional\Concerns\HasAddress;
 use Hanafalah\ModuleWarehouse\Resources\Building\ViewBuilding;
 
 class Building extends BaseModel
 {
-    use SoftDeletes;
+    use SoftDeletes, HasAddress, HasPhone;
 
     protected $list = ['id', 'name'];
 

@@ -26,8 +26,10 @@ return new class extends Migration
         $table_name = $this->__table->getTable();
         if (!$this->isTableExists()) {
             Schema::create($table_name, function (Blueprint $table) {
-                $table->id();
+                $table->ulid('id')->primary();
                 $table->string('name', 50)->nullable(false);
+                $table->string('flag', 50)->default('Building')->nullable(false);
+                $table->json('props')->nullable(true);
                 $table->timestamps();
                 $table->softDeletes();
             });

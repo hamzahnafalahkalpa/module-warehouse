@@ -19,4 +19,9 @@ class BuildingData extends Data implements DataBuildingData{
     #[MapInputName('props')]
     #[MapName('props')]
     public mixed $props = null;
+
+    public static function after(mixed $data): BuildingData{
+        $data->flag = 'Building';
+        return $data;
+    }
 }

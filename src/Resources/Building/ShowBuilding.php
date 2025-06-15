@@ -2,9 +2,7 @@
 
 namespace Hanafalah\ModuleWarehouse\Resources\Building;
 
-use Hanafalah\LaravelSupport\Resources\ApiResource;
-
-class ViewBuilding extends ApiResource
+class ShowBuilding extends ViewBuilding
 {
   /**
    * Transform the resource into an array.
@@ -14,12 +12,7 @@ class ViewBuilding extends ApiResource
    */
   public function toArray(\Illuminate\Http\Request $request): array
   {
-    $arr = [
-      'id'         => $this->id,
-      'name'       => $this->name,
-      'created_at' => $this->created_at,
-      'updated_at' => $this->updated_at
-    ];
+    $arr = [];
     return $arr;
   }
 }

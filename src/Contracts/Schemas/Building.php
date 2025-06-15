@@ -19,11 +19,10 @@ use Illuminate\Database\Eloquent\Builder;
  * @method array viewBuildingList()
  * @method LengthAwarePaginator prepareViewBuildingPaginate(PaginateData $paginate_dto)
  * @method array viewBuildingPaginate(?PaginateData $paginate_dto = null)
+ * @method Builder building(mixed $conditionals = null)
  */
 interface Building extends DataManagement
 {
     public function prepareStoreBuilding(BuildingData $building_dto): Model;
     public function storeBuilding(? BuildingData $building_dto = null): array;
-    public function building(mixed $conditionals = null): Builder;
-    
 }

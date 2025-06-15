@@ -8,11 +8,15 @@ use Hanafalah\LaravelSupport\Models\BaseModel;
 use Hanafalah\ModuleWarehouse\Concerns\Stock\HasWarehouseStock;
 use Hanafalah\ModuleWarehouse\Resources\Room\ShowRoom;
 use Hanafalah\ModuleWarehouse\Resources\Room\ViewRoom;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 
 class Room extends BaseModel
 {
-    use HasProps, SoftDeletes, HasWarehouseStock;
+    use HasUlids, HasProps, SoftDeletes, HasWarehouseStock;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primary = 'id';
     protected $list = [
         'id',
         'building_id',

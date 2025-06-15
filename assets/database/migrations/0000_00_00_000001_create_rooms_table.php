@@ -28,7 +28,7 @@ return new class extends Migration
             Schema::create($table_name, function (Blueprint $table) {
                 $building = app(config('database.models.Building', Building::class));
 
-                $table->id();
+                $table->ulid('id')->primary();
                 $table->string('name', 50)->nullable(false);
                 $table->foreignIdFor($building::class)
                     ->index()->constrained()->cascadeOnUpdate()

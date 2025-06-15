@@ -12,12 +12,13 @@ class Building extends PackageManagement implements ContractBuilding
 {
     protected string $__entity = 'Building';
     public static $building_model;
+    protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [
         'index' => [
             'name'     => 'building',
             'tags'     => ['building', 'building-index'],
-            'forever'  => true
+            'duration'  => 24 * 60
         ]
     ];
 
@@ -39,10 +40,5 @@ class Building extends PackageManagement implements ContractBuilding
         return $this->transaction(function () use ($building_dto) {
             return $this->showBuilding($this->prepareStoreBuilding($building_dto ?? $this->requestDTO(BuildingData::class)));
         });
-    }
-
-    public function building(mixed $conditionals = null): Builder{
-        $this->booting();
-        return $this->BuildingModel()->conditionals($this->mergeCondition($conditionals ?? []))->withParameters()->orderBy('name', 'asc');
     }
 }

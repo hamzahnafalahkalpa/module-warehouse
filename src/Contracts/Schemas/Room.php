@@ -10,6 +10,7 @@ use Hanafalah\ModuleWarehouse\Contracts\Data\RoomData;
 
 /**
  * @see \Hanafalah\ModuleWarehouse\Schemas\Room
+ * @method self setParamLogic(string $logic, bool $search_value = false, ?array $optionals = [])
  * @method self conditionals(mixed $conditionals)
  * @method bool deleteRoom()
  * @method bool prepareDeleteRoom(? array $attributes = null)

@@ -12,9 +12,19 @@ class ShowRoom extends ViewRoom
    */
   public function toArray(\Illuminate\Http\Request $request): array
   {
-    $arr = [];
+    $arr = [
+      'model_has_rooms' => $this->relationValidation('modelHasRooms',function(){
+        return $this->modelHasRooms->transform(function($modelHasRoom){
+          return $modelHasRoom->toViewApi();
+        });
+      }),
+      'warehouse_items' => $this->relationValidation('warehouseItems',function(){
+        return $this->warehouseItems->transform(function($warehouseItem){
+          return $warehouseItem->toViewApi();
+        });
+      })
+    ];
     $arr = $this->mergeArray(parent::toArray($request), $arr);
-
     return $arr;
   }
 }

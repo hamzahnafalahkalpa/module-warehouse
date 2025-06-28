@@ -2,9 +2,9 @@
 
 namespace Hanafalah\ModuleWarehouse\Contracts\Schemas;
 
+use Hanafalah\LaravelSupport\Contracts\Schemas\Unicode;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Hanafalah\LaravelSupport\Contracts\Supports\DataManagement;
 use Hanafalah\ModuleWarehouse\Contracts\Data\BuildingData;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -18,11 +18,9 @@ use Illuminate\Database\Eloquent\Builder;
  * @method Collection prepareViewBuildingList()
  * @method array viewBuildingList()
  * @method LengthAwarePaginator prepareViewBuildingPaginate(PaginateData $paginate_dto)
+ * @method Model prepareStoreBuilding(BuildingData $building_dto)
+ * @method array storeBuilding(? BuildingData $building_dto = null)
  * @method array viewBuildingPaginate(?PaginateData $paginate_dto = null)
  * @method Builder building(mixed $conditionals = null)
  */
-interface Building extends DataManagement
-{
-    public function prepareStoreBuilding(BuildingData $building_dto): Model;
-    public function storeBuilding(? BuildingData $building_dto = null): array;
-}
+interface Building extends Unicode{}

@@ -55,17 +55,9 @@ class Room extends BaseModel
         return [];
     }
 
-    public function getShowResource(){
-        return ShowRoom::class;
-    }
-
-    public function getViewResource(){
-        return ViewRoom::class;
-    }
-
-    //SCOPE SECTION
+    public function getShowResource(){return ShowRoom::class;}
+    public function getViewResource(){return ViewRoom::class;}
     public function scopeInvisible($builder){return $builder->withoutGlobalScope('visible')->isInvisible();}
-
     public function scopeIsVisible($builder){
         return $builder->where(function ($query) {
             $query->whereNull($this->getTable() . '.props->visibility')
@@ -75,7 +67,6 @@ class Room extends BaseModel
                 });
         });
     }
-
     public function scopeIsInvisible($builder){
         return $builder->where(function ($query) {
             $query->whereNotNull($this->getTable() . '.props->visibility')
@@ -90,5 +81,7 @@ class Room extends BaseModel
     public function modelHasRooms(){return $this->hasManyModel('ModelHasRoom');}
     public function refModelHasRoom(){return $this->morphOneModel('ModelHasRoom', 'reference');}
     public function refModelHasRooms(){return $this->morphManyModel('ModelHasRoom', 'reference');}
+    public function roomHasItem(){return $this->hasOneModel('RoomHasItem');}
+    public function roomHasItems(){return $this->hasManyModel('RoomHasItem');}
     //END EIGER SECTION
 }

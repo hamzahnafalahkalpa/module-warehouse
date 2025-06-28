@@ -5,6 +5,7 @@ namespace Hanafalah\ModuleWarehouse\Data;
 use Hanafalah\LaravelSupport\Supports\Data;
 use Hanafalah\ModuleWarehouse\Contracts\Data\BuildingData;
 use Hanafalah\ModuleWarehouse\Contracts\Data\RoomData as DataRoomData;
+use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Attributes\MapName;
 
@@ -24,6 +25,16 @@ class RoomData extends Data implements DataRoomData{
     #[MapInputName('building')]
     #[MapName('building')]
     public ?BuildingData $building = null;
+
+    #[MapInputName('model_has_rooms')]
+    #[MapName('model_has_rooms')]
+    #[DataCollectionOf(ModelHasRoomData::class)]
+    public ?array $model_has_rooms = null;
+
+    #[MapInputName('warehouse_items')]
+    #[MapName('warehouse_items')]
+    #[DataCollectionOf(WarehouseItemData::class)]
+    public ?array $warehouse_items = null;
 
     #[MapInputName('props')]
     #[MapName('props')]

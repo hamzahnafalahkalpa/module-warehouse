@@ -2,6 +2,4 @@
 
 namespace Hanafalah\ModuleWarehouse\Contracts\Data;
 
-use Spatie\LaravelData\Contracts\BaseData;
-
-interface ModelHasRoomData extends BaseData {}
+interface ModelHasRoomData extends ModelHasWarehouseData {}

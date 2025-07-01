@@ -4,7 +4,9 @@ namespace Hanafalah\ModuleWarehouse\Schemas;
 
 use Illuminate\Database\Eloquent\Model;
 use Hanafalah\LaravelSupport\Supports\PackageManagement;
+use Hanafalah\ModuleWarehouse\Contracts\Data\ModelHasRoomData;
 use Hanafalah\ModuleWarehouse\Contracts\Data\RoomData;
+use Hanafalah\ModuleWarehouse\Contracts\Data\WarehouseItemData;
 use Hanafalah\ModuleWarehouse\Contracts\Schemas\Room as ContractRoom;
 
 class Room extends PackageManagement implements ContractRoom
@@ -26,7 +28,8 @@ class Room extends PackageManagement implements ContractRoom
             'id'          => $room_dto->id ?? null,
         ], [
             'building_id' => $room_dto->building_id,
-            'name'        => $room_dto->name
+            'name'        => $room_dto->name,
+            'room_number' => $room_dto->room_number
         ]);
     }
 
@@ -40,24 +43,41 @@ class Room extends PackageManagement implements ContractRoom
             ];
         }
         $room = $this->createRoom($room_dto);
+        $room_dto->id = $room->getKey();
 
-        if (isset($room_dto->model_has_rooms) && count($room_dto->model_has_rooms) > 0){
-            foreach ($room_dto->model_has_rooms as $model_has_room) {
-                $this->schemaContract('model_has_room')
-                     ->prepareStoreModelHasRoom($model_has_room);
-            }
-        }
-
-        if (isset($room_dto->warehouse_items) && count($room_dto->warehouse_items) > 0){
-            foreach ($room_dto->warehouse_items as $warehouse_item) {
-                $this->schemaContract('warehouse_item')
-                     ->prepareStoreWarehouseitem($warehouse_item);
-            }
-        }
+        $this->prepareStoreModelHasRooms($room_dto)
+             ->prepareStoreWarehouseItems($room_dto);
 
         $this->fillingProps($room,$room_dto->props);
         $room->save();
         $this->forgetTags('room');
         return static::$room_model = $room;
+    }
+
+    protected function prepareStoreModelHasRooms(RoomData &$room_dto): self{
+        if (isset($room_dto->model_has_rooms) && count($room_dto->model_has_rooms) > 0){
+            foreach ($room_dto->model_has_rooms as $model_has_room) {
+                $model_has_room->warehouse_id = $room_dto->id;
+                $this->prepareStoreModelHasRoom($model_has_room);
+            }
+        }
+        return $this;
+    }
+
+    protected function prepareStoreWarehouseItems(RoomData &$room_dto): self{
+        if (isset($room_dto->warehouse_items) && count($room_dto->warehouse_items) > 0){
+            foreach ($room_dto->warehouse_items as $warehouse_item) $this->preparreStoreWarehouseItem($warehouse_item);
+        }
+        return $this;
+    }
+
+    protected function prepareStoreModelHasRoom(ModelHasRoomData &$model_has_room): Model{
+        return $this->schemaContract('model_has_room')
+                    ->prepareStoreModelHasRoom($model_has_room);
+    }
+
+    protected function prepareStoreWarehouseItem(WarehouseItemData &$warehouse_item): Model{
+        return $this->schemaContract('warehouse_item')
+                    ->prepareStoreWarehouseitem($warehouse_item);
     }
 }

@@ -21,15 +21,15 @@ class ViewStockMovement extends ApiResource
             'reference'     => $this->prop_reference,
             'batch_movements' => $this->relationValidation('batchMovements', function () {
                 return $this->batchMovements->transform(function ($batchMovement) {
-                    return $batchMovement->toViewApi();
+                    return $batchMovement->toViewApi()->resolve();
                 });
             }),
             'goods_receipt_unit' => $this->relationValidation('goodsReceiptUnit', function () {
-                return $this->goodsReceiptUnit->toViewApi();
+                return $this->goodsReceiptUnit->toViewApi()->resolve();
             }),
             'childs'        => $this->relationValidation('childs', function () {
                 return $this->childs->transform(function ($child) {
-                    return $child->toViewApi();
+                    return $child->toViewApi()->resolve();
                 });
             }),
             'funding'       => $this->prop_funding,

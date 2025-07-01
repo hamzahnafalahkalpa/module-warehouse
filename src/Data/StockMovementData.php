@@ -30,6 +30,10 @@ class StockMovementData extends Data implements DataStockMovementData{
     #[MapName('card_stock_id')]
     public mixed $card_stock_id = null;
 
+    #[MapInputName('card_stock_mdoel')]
+    #[MapName('card_stock_mdoel')]
+    public ?object $card_stock_mdoel = null;
+
     #[MapInputName('reference_type')]
     #[MapName('reference_type')]
     public ?string $reference_type = null;
@@ -40,7 +44,7 @@ class StockMovementData extends Data implements DataStockMovementData{
 
     #[MapInputName('item_stock_id')]
     #[MapName('item_stock_id')]
-    public mixed $item_stock_id = null;
+    public mixed $item_stock_id;
 
     #[MapInputName('goods_receipt_unit_id')]
     #[MapName('goods_receipt_unit_id')]
@@ -80,25 +84,17 @@ class StockMovementData extends Data implements DataStockMovementData{
     public ?StockMovementPropsData $props = null;
 
     public static function after(StockMovementData $data): StockMovementData{
+        $new = self::new();
         $props = &$data->props->props;
-        $props['prop_qty_unit'] = [
-            'id'    => $data->qty_unit_id ?? null,
-            'flag'  => null,
-            'name'  => $data->qty_unit['name'] ?? null
-        ];
-        if (isset($props['props_qty_unit']['id'])){
-            $unit = self::new()->ItemStuffModel()->findOrFail($props['props_qty_unit']['id']);
-            $props['props_qty_unit']['flag']   = $unit->flag;
-            $props['props_qty_unit']['name'] ??= $unit->name;
-        }
 
-        $props['prop_reference'] = [
-            'id'   => $data->reference_id ?? null,
-            'name' => null
-        ];
-        if (isset($props['prop_reference']['id']) && !isset($props['prop_reference']['name'])){
-            $warehouse = self::new()->{$data->reference_type.'Model'}()->findOrFail($props['prop_reference']['id']);
-            $props['prop_reference']['name'] = $warehouse->name;
+        $qty_unit = $new->ItemStuffModel();
+        if (isset($data->qty_unit_id)) $unit = $qty_unit->findOrFail($data->qty_unit_id);
+        $props['prop_unit'] = $unit->toViewApi()->only(['id','flag','name']);
+
+        if (isset($data->reference_type)){
+            $reference = $new->{$data->reference_type.'Model'}();
+            if (isset($data->reference_id)) $reference = $reference->findOrFail($data->reference_id);
+            $props['prop_reference'] = $reference->toViewApi()->resolve();
         }
         return $data;
     }

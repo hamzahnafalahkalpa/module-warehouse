@@ -21,6 +21,7 @@ class Room extends BaseModel
         'id',
         'building_id',
         'name',
+        'room_number',
         "props"
     ];
 
@@ -40,7 +41,7 @@ class Room extends BaseModel
     {
         parent::booted();
         static::addGlobalScope('visible', function ($query) {
-            $query->isVisible();
+            // $query->isVisible();
         });
         static::deleting(function ($query) {
             $query->modelHasRoom()->delete();
@@ -52,7 +53,9 @@ class Room extends BaseModel
     }
 
     public function showUsingRelation(): array{
-        return [];
+        return [
+            'modelHasRooms', 'warehouseItems'
+        ];
     }
 
     public function getShowResource(){return ShowRoom::class;}
@@ -77,8 +80,10 @@ class Room extends BaseModel
     //EIGER SECCTION
     public function building(){return $this->belongsToModel('Building');}
     public function modelHasService(){return $this->morphOneModel('ModelHasService', "reference");}
-    public function modelHasRoom(){return $this->hasOneModel('ModelHasRoom');}
-    public function modelHasRooms(){return $this->hasManyModel('ModelHasRoom');}
+    public function modelHasRoom(){return $this->morphOneModel('ModelHasRoom','warehouse');}
+    public function modelHasRooms(){return $this->morphManyModel('ModelHasRoom','warehouse');}
+    public function warehouseItem(){return $this->morphOneModel('WarehouseItem','warehouse');}
+    public function warehouseItems(){return $this->morphManyModel('WarehouseItem','warehouse');}
     public function refModelHasRoom(){return $this->morphOneModel('ModelHasRoom', 'reference');}
     public function refModelHasRooms(){return $this->morphManyModel('ModelHasRoom', 'reference');}
     public function roomHasItem(){return $this->hasOneModel('RoomHasItem');}

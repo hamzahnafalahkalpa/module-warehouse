@@ -2,6 +2,8 @@
 
 namespace Hanafalah\ModuleWarehouse\Resources\ModelHasRoom;
 
+use Hanafalah\ModuleWarehouse\Resources\ModelHasWarehouse\ShowModelHasWarehouse;
+
 class ShowModelHasRoom extends ViewModelHasRoom
 {
   /**
@@ -13,7 +15,8 @@ class ShowModelHasRoom extends ViewModelHasRoom
   public function toArray(\Illuminate\Http\Request $request): array
   {
     $arr = [];
-    $arr = $this->mergeArray(parent::toArray($request),$arr);
+    $show = $this->resolveNow(new ShowModelHasWarehouse($this));
+    $arr = $this->mergeArray(parent::toArray($request),$show,$arr);
     return $arr;
   }
 }

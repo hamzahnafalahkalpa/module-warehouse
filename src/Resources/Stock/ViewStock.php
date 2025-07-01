@@ -28,11 +28,11 @@ class ViewStock extends ApiResource
       'stock_spell'    => ($this->stock % 1 == 0) ? (int) $this->stock : number_format($this->stock, 2, '.', ''),
       'stock_batches'  => $this->relationValidation('stockBatches', function () {
         return $this->stockBatches->transform(function ($stockBatch) {
-          return $stockBatch->toViewApi();
+          return $stockBatch->toViewApi()->resolve();
         });
       }),
       'funding'    => $this->relationValidation('funding', function () {
-        return $this->funding->toViewApi();
+        return $this->funding->toViewApi()->resolve();
       }),
       'childs'         => $this->relationValidation('childs', function () {
         $childs = $this->childs;

@@ -21,7 +21,7 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
             $warehouse = $this->{config('module-warehouse.warehouse').'Model'}()->find($stock_movement_dto->reference_id);
             if (!isset($warehouse)) throw new \Exception('warehouse does not exist');
 
-            $card_stock = $this->CardStockModel()->find($stock_movement_dto->card_stock_id);
+            $card_stock = $stock_movement_dto->card_stock_model ?? $this->CardStockModel()->find($stock_movement_dto->card_stock_id);
             if (!isset($card_stock)) throw new \Exception('card_stock does not exist');
 
             $item_stock = $this->ItemStockModel()->firstOrCreate([
@@ -44,6 +44,11 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
 
     public function prepareStoreStockMovement(StockMovementData $stock_movement_dto): Model
     {
+        $add = [
+            'qty'                   => $stock_movement_dto->qty ?? 0,
+            'opening_stock'         => $stock_movement_dto->opening_stock ?? 0,
+            'closing_stock'         => $stock_movement_dto->closing_stock ?? 0,
+        ];
         if (isset($stock_movement_dto->id)) {
             $guard = ['id' => $stock_movement_dto->id];
         } else {
@@ -58,25 +63,20 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
                 'direction'             => $stock_movement_dto->direction
             ];
         }
-
-        $stock_movement = $this->StockMovementModel()->updateOrCreate($guard, [
-            'qty'                   => $stock_movement_dto->qty ?? 0,
-            'opening_stock'         => $stock_movement_dto->opening_stock ?? 0,
-            'closing_stock'         => $stock_movement_dto->closing_stock ?? 0,
-        ]);
+        $stock_movement = $this->StockMovementModel()->updateOrCreate($guard, $add);
         if (isset($stock_movement_dto->batch_movements) && count($stock_movement_dto->batch_movements) > 0) {
             $batch_movement_schema = $this->schemaContract('batch_movement');
-            foreach ($stock_movement_dto->batch_movements as $batch_movement) {
-                $batch_movement_schema->prepareStoreBatchMovement([
-                    'id'                => $batch_movement['id'] ?? null,
-                    'stock_id'          => $stock_movement->item_stock_id,
-                    'stock_movement_id' => $stock_movement->getKey(),
-                    'batch_id'          => $batch_movement['batch_id'] ?? null,
-                    'batch_no'          => $batch_movement['batch_no'] ?? null,
-                    'expired_at'        => $batch_movement['expired_at'] ?? null,
-                    'qty'               => $batch_movement['qty'] ?? 0
-                ]);
-            }
+            // foreach ($stock_movement_dto->batch_movements as $batch_movement) {
+            //     $batch_movement_schema->prepareStoreBatchMovement([
+            //         'id'                => $batch_movement['id'] ?? null,
+            //         'stock_id'          => $stock_movement->item_stock_id,
+            //         'stock_movement_id' => $stock_movement->getKey(),
+            //         'batch_id'          => $batch_movement['batch_id'] ?? null,
+            //         'batch_no'          => $batch_movement['batch_no'] ?? null,
+            //         'expired_at'        => $batch_movement['expired_at'] ?? null,
+            //         'qty'               => $batch_movement['qty'] ?? 0
+            //     ]);
+            // }
         }
         $this->fillingProps($stock_movement, $stock_movement_dto->props);
         $stock_movement->save();

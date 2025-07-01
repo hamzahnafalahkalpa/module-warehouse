@@ -19,7 +19,7 @@ class ViewRoom extends ApiResource
       'id'            => $this->id,
       'name'          => $this->name,
       "floor"         => $this->floor,
-      'is_supplier'   => $this->is_supplier == 1 ? true : false,
+      "room_number"   => $this->room_number,
       "phone"         => $this->phone,
       'building'      => $this->prop_building,
       'class_room'    => $this->prop_class_room,

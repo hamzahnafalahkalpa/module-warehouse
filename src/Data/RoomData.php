@@ -18,6 +18,10 @@ class RoomData extends Data implements DataRoomData{
     #[MapName('name')]
     public string $name;
 
+    #[MapInputName('room_number')]
+    #[MapName('room_number')]
+    public ?string $room_number = null;
+
     #[MapInputName('building_id')]
     #[MapName('building_id')]
     public mixed $building_id = null;
@@ -30,6 +34,11 @@ class RoomData extends Data implements DataRoomData{
     #[MapName('model_has_rooms')]
     #[DataCollectionOf(ModelHasRoomData::class)]
     public ?array $model_has_rooms = null;
+
+    #[MapInputName('model_has_warehouses')]
+    #[MapName('model_has_warehouses')]
+    #[DataCollectionOf(ModelHasWarehouseData::class)]
+    public ?array $model_has_warehouses = null;
 
     #[MapInputName('warehouse_items')]
     #[MapName('warehouse_items')]

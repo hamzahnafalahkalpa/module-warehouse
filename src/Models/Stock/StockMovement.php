@@ -8,11 +8,15 @@ use Hanafalah\ModuleWarehouse\Resources\StockMovement\{
 };
 use Hanafalah\LaravelHasProps\Concerns\HasProps;
 use Hanafalah\ModuleWarehouse\Enums\MainMovement\Direction;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 
 class StockMovement extends MainMovement
 {
-    use HasProps;
+    use HasUlids, HasProps;
 
+    public $incrementing  = false;
+    protected $keyType    = 'string';
+    protected $primaryKey = 'id';
     protected $list       = [
         'id',
         'parent_id',

@@ -15,12 +15,12 @@ class ShowRoom extends ViewRoom
     $arr = [
       'model_has_rooms' => $this->relationValidation('modelHasRooms',function(){
         return $this->modelHasRooms->transform(function($modelHasRoom){
-          return $modelHasRoom->toViewApi();
+          return $modelHasRoom->toViewApi()->resolve();
         });
       }),
       'warehouse_items' => $this->relationValidation('warehouseItems',function(){
         return $this->warehouseItems->transform(function($warehouseItem){
-          return $warehouseItem->toViewApi();
+          return $warehouseItem->toViewApi()->resolve();
         });
       })
     ];

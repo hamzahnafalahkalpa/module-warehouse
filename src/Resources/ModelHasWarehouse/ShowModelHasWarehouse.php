@@ -1,10 +1,8 @@
 <?php
 
-namespace Hanafalah\ModuleWarehouse\Resources\ModelHasRoom;
+namespace Hanafalah\ModuleWarehouse\Resources\ModelHasWarehouse;
 
-use Hanafalah\ModuleWarehouse\Resources\ModelHasWarehouse\ViewModelHasWarehouse;
-
-class ViewModelHasRoom extends ViewModelHasWarehouse
+class ShowModelHasWarehouse extends ViewModelHasWarehouse
 {
   /**
    * Transform the resource into an array.
@@ -14,9 +12,7 @@ class ViewModelHasRoom extends ViewModelHasWarehouse
    */
   public function toArray(\Illuminate\Http\Request $request): array
   {
-    $arr = [
-      'room' => $this->prop_room
-    ];
+    $arr = [];
     $arr = $this->mergeArray(parent::toArray($request),$arr);
     return $arr;
   }

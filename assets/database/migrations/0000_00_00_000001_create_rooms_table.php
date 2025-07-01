@@ -30,6 +30,7 @@ return new class extends Migration
 
                 $table->ulid('id')->primary();
                 $table->string('name', 50)->nullable(false);
+                $table->string('room_number')->nullable(true);
                 $table->foreignIdFor($building::class)
                     ->index()->constrained()->cascadeOnUpdate()
                     ->restrictOnDelete();

@@ -14,7 +14,7 @@ class ShowBatchMovement extends ViewBatchMovement
   {
     $arr = [
       'stock_batch' => $this->relationValidation('stockBatch', function () {
-        return $this->stockBatch->toShowApi();
+        return $this->stockBatch->toShowApi()->resolve();
       })
     ];
     $arr = $this->mergeArray(parent::toArray($request), $arr);

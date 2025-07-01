@@ -3,8 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Hanafalah\ModuleWarehouse\Models\Building\Room;
-use Hanafalah\ModuleWarehouse\Models\ModelHasRoom\ModelHasRoom;
+use Hanafalah\ModuleWarehouse\Models\{
+    ModelHasWarehouse
+};
 
 return new class extends Migration
 {
@@ -14,7 +15,7 @@ return new class extends Migration
 
     public function __construct()
     {
-        $this->__table = app(config('database.models.ModelHasRoom', ModelHasRoom::class));
+        $this->__table = app(config('database.models.ModelHasWarehouse', ModelHasWarehouse::class));
     }
 
     /**
@@ -27,16 +28,18 @@ return new class extends Migration
         $table_name = $this->__table->getTable();
         if (!$this->isTableExists()) {
             Schema::create($table_name, function (Blueprint $table) {
-                $table->id();
-                $table->foreignIdFor(Room::class, 'room_id')
-                    ->nullable()
-                    ->index()->constrained()
-                    ->cascadeOnUpdate()->restrictOnDelete();
-                $table->string("reference_id", 36);
-                $table->string("reference_type", 60);
+                $table->ulid('id')->primary();
+                $table->string("warehouse_type", 50);
+                $table->string("warehouse_id", 36);
+                $table->string("model_type", 50);
+                $table->string("model_id", 36);
                 $table->unsignedTinyInteger("current")->default(1);
                 $table->json("props");
                 $table->timestamps();
+
+                $table->unique(["warehouse_type", "warehouse_id", "model_type", "model_id"], "mhw_unique");
+                $table->unique(["warehouse_type", "warehouse_id"], "mhw_warehouse");
+                $table->unique(["model_type", "model_id"], "mhw_model");
             });
         }
     }

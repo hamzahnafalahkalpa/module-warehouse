@@ -18,21 +18,24 @@ class ViewStock extends ApiResource
 
     $arr = [
       'id'             => $this->id,
-      'funding_id'     => $this->funding_id,
       'parent_id'      => $this->parent_id ?? null,
+      'funding_id'     => $this->funding_id,
+      'funding'        => $this->prop_funding,
       'subject_type'   => $this->subject_type,
       'subject_id'     => $this->subject_id,
+      'subject'        => $this->prop_subject,
+      'supplier_type'  => $this->supplier_type,
+      'supplier_id'    => $this->supplier_id,
+      'supplier'       => $this->prop_supplier,
       'warehouse_type' => $this->warehouse_type,
       'warehouse_id'   => $this->warehouse_id,
+      'warehouse'      => $this->prop_warehouse,
       'stock'          => $this->stock,
       'stock_spell'    => ($this->stock % 1 == 0) ? (int) $this->stock : number_format($this->stock, 2, '.', ''),
       'stock_batches'  => $this->relationValidation('stockBatches', function () {
         return $this->stockBatches->transform(function ($stockBatch) {
           return $stockBatch->toViewApi()->resolve();
         });
-      }),
-      'funding'    => $this->relationValidation('funding', function () {
-        return $this->funding->toViewApi()->resolve();
       }),
       'childs'         => $this->relationValidation('childs', function () {
         $childs = $this->childs;

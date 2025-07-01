@@ -39,8 +39,22 @@ class StockData extends Data implements DataStockData{
     #[RequiredWithout('id')]
     public mixed $funding_id = null;
 
+    #[MapInputName('procurement_type')]
+    #[MapName('procurement_type')]
+    #[RequiredWithout('id')]
+    public ?string $procurement_type = null;
+
+    #[MapInputName('procurement_id')]
+    #[MapName('procurement_id')]
+    #[RequiredWithout('id')]
+    public mixed $procurement_id = null;
+
     #[MapInputName('stock_batches')]
     #[MapName('stock_batches')]
     #[DataCollectionOf(StockBatchData::class)]
     public ?array $stock_batches = [];
+
+    #[MapInputName('props')]
+    #[MapName('props')]
+    public ?array $props = [];
 }

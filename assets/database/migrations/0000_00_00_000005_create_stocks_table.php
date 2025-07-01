@@ -35,6 +35,7 @@ return new class extends Migration
                     ->restrictOnDelete()
                     ->cascadeOnUpdate();
                 $table->decimal('stock', 12, 4)->nullable(false);
+                
                 $table->string('subject_type', 50)->nullable(false);
                 $table->string('subject_id', 36)->nullable(false);
                 $table->string('warehouse_type', 50)->nullable(false);

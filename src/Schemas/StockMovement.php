@@ -16,30 +16,10 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
 
 
     protected function initiateItemStock(StockMovementData &$stock_movement_dto){
-        if (!isset($stock_movement_dto->item_stock_id)) {
-            if (!isset($stock_movement_dto->reference_id)) throw new \Exception('warehouse_id is required when item_stock_id is not provided');
-            $warehouse = $this->{config('module-warehouse.warehouse').'Model'}()->find($stock_movement_dto->reference_id);
-            if (!isset($warehouse)) throw new \Exception('warehouse does not exist');
-
-            $card_stock = $stock_movement_dto->card_stock_model ?? $this->CardStockModel()->find($stock_movement_dto->card_stock_id);
-            if (!isset($card_stock)) throw new \Exception('card_stock does not exist');
-
-            $item_stock = $this->ItemStockModel()->firstOrCreate([
-                'subject_id'     => $card_stock->item_id,
-                'subject_type'   => $this->ItemModel()->getMorphClass(),
-                'warehouse_id'   => $warehouse->getKey(),
-                'warehouse_type' => $warehouse->getMorphClass(),
-                'funding_id'     => $stock_movement_dto->props->funding_id ?? null
-            ], [
-                'stock'          => 0
-            ]);
+        if (isset($stock_movement_dto->item_stock)) {
+            $item_stock = $this->schemaContract('item_stock')->prepareStoreItemStock($stock_movement_dto->item_stock);
             $stock_movement_dto->item_stock_id = $item_stock->getKey();
-        } else {
-            $item_stock = $this->ItemStockModel()->find($stock_movement_dto->item_stock_id);
-            if (!isset($item_stock)) throw new \Exception('item_stock does not exist');
         }
-        $stock_movement_dto->reference_id    ??= $item_stock->warehouse_id;
-        $stock_movement_dto->reference_type  ??= $item_stock->warehouse_type;
     }
 
     public function prepareStoreStockMovement(StockMovementData $stock_movement_dto): Model
@@ -48,6 +28,7 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
             'qty'                   => $stock_movement_dto->qty ?? 0,
             'opening_stock'         => $stock_movement_dto->opening_stock ?? 0,
             'closing_stock'         => $stock_movement_dto->closing_stock ?? 0,
+            'item_stock_id'         => $stock_movement_dto->item_stock_id
         ];
         if (isset($stock_movement_dto->id)) {
             $guard = ['id' => $stock_movement_dto->id];
@@ -58,7 +39,6 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
                 'reference_type'        => $stock_movement_dto->reference_type,
                 'reference_id'          => $stock_movement_dto->reference_id,
                 'card_stock_id'         => $stock_movement_dto->card_stock_id,
-                'item_stock_id'         => $stock_movement_dto->item_stock_id,
                 'goods_receipt_unit_id' => $stock_movement_dto->goods_receipt_unit_id,
                 'direction'             => $stock_movement_dto->direction
             ];

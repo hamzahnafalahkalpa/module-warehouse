@@ -3,8 +3,10 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Hanafalah\ModuleWarehouse\Models\{
+    WarehouseItem
+};
 use Hanafalah\ModuleWarehouse\Models\Building\Room;
-use Hanafalah\ModuleWarehouse\Models\ModelHasRoom\ModelHasRoom;
 
 return new class extends Migration
 {
@@ -14,7 +16,7 @@ return new class extends Migration
 
     public function __construct()
     {
-        $this->__table = app(config('database.models.ModelHasRoom', ModelHasRoom::class));
+        $this->__table = app(config('database.models.WarehouseItem', WarehouseItem::class));
     }
 
     /**
@@ -27,16 +29,18 @@ return new class extends Migration
         $table_name = $this->__table->getTable();
         if (!$this->isTableExists()) {
             Schema::create($table_name, function (Blueprint $table) {
-                $table->id();
-                $table->foreignIdFor(Room::class, 'room_id')
-                    ->nullable()
-                    ->index()->constrained()
-                    ->cascadeOnUpdate()->restrictOnDelete();
-                $table->string("reference_id", 36);
-                $table->string("reference_type", 60);
-                $table->unsignedTinyInteger("current")->default(1);
-                $table->json("props");
+                $table->ulid('id')->primary();
+                $table->string('warehouse_type',50)->nullable(false);
+                $table->string('warehouse_id',36)->nullable(false);
+                $table->string('item_type',50)->nullable(false);
+                $table->string('item_id',36)->nullable(false);
+                $table->string('flag',50)->nullable(false);
+                $table->json('props')->nullable();
                 $table->timestamps();
+                $table->softDeletes();
+
+                $table->index(['warehouse_type', 'warehouse_id'], 'wh_wh_item');
+                $table->index(['item_type', 'item_id'], 'wh_item_item');
             });
         }
     }

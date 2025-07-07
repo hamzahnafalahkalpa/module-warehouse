@@ -18,10 +18,10 @@ class ViewBatchMovement extends ApiResource
             'id'    => $this->id,
             'parent_id' => $this->parent_id,
             'batch' => $this->relationValidation('batch', function () {
-                return $this->batch->toViewApi();
+                return $this->batch->toViewApi()->resolve();
             }),
             'stock_batch' => $this->relationValidation('stockBatch', function () {
-                return $this->stockBatch->toViewApi();
+                return $this->stockBatch->toViewApi()->resolve();
             }),
             'qty'   => $this->qty,
             'opening_stock' => $this->opening_stock,

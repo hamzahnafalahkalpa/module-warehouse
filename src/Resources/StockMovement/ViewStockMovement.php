@@ -14,32 +14,36 @@ class ViewStockMovement extends ApiResource
      */
     public function toArray(\Illuminate\Http\Request $request): array
     {
-        $props = $this->getOriginal()['props'];
+        // $props = $this->getOriginal()['props'];
         $arr = [
             'id'            => $this->id,
             'parent_id'     => $this->parent_id,
-            'reference'     => $this->relationValidation('reference', function () {
-                return $this->reference->toViewApi();
-            }),
+            'reference'     => $this->prop_reference,
             'batch_movements' => $this->relationValidation('batchMovements', function () {
                 return $this->batchMovements->transform(function ($batchMovement) {
-                    return $batchMovement->toViewApi();
+                    return $batchMovement->toViewApi()->resolve();
                 });
             }),
             'goods_receipt_unit' => $this->relationValidation('goodsReceiptUnit', function () {
-                return $this->goodsReceiptUnit->toViewApi();
+                return $this->goodsReceiptUnit->toViewApi()->resolve();
             }),
             'childs'        => $this->relationValidation('childs', function () {
                 return $this->childs->transform(function ($child) {
-                    return $child->toViewApi();
+                    return $child->toViewApi()->resolve();
                 });
             }),
+            'funding'       => $this->prop_funding,
             'direction'     => $this->direction,
-            'qty'           => $this->qty,
-            'opening_stock' => $this->opening_stock,
-            'closing_stock' => $this->closing_stock,
-            'changes_stock' => abs($this->closing_stock - $this->opening_stock),
-            'props'         => $props == [] ? null : $props
+            'qty'           => floatval($this->qty),
+            'qty_unit'      => $this->prop_qty_unit,
+            'price'         => $this->price,
+            'cogs'          => $this->cogs,
+            'total_cogs'    => $this->total_cogs,
+            'opening_stock' => floatval($this->opening_stock),
+            'closing_stock' => floatval($this->closing_stock),
+            'changes_stock' => floatval(abs($this->closing_stock - $this->opening_stock)),
+            'margin'        => $this->margin,
+            // 'props'         => $props == [] ? null : $props
         ];
 
         return $arr;

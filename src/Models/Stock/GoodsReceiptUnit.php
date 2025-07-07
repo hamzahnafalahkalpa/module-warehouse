@@ -29,28 +29,22 @@ class GoodsReceiptUnit extends BaseModel
         });
     }
 
-    public function toShowApi()
-    {
-        return new ShowGoodsReceiptUnit($this);
+    public function viewUsingRelation(): array{
+        return [];
     }
 
-    public function toViewApi()
-    {
-        return new ViewGoodsReceiptUnit($this);
+    public function showUsingRelation(): array{
+        return [];
     }
 
-    public function cardStock()
-    {
-        return $this->belongsToModel('CardStock');
+    public function getShowResource(){
+        return ShowGoodsReceiptUnit::class;
     }
 
-    public function unit()
-    {
-        return $this->belongsToModel('ItemStuff');
+    public function getViewResource(){
+        return ViewGoodsReceiptUnit::class;
     }
-
-    public function stockMovement()
-    {
-        return $this->hasOneModel('StockMovement');
-    }
+    public function cardStock(){return $this->belongsToModel('CardStock');}
+    public function unit(){return $this->belongsToModel('ItemStuff');}
+    public function stockMovement(){return $this->hasOneModel('StockMovement');}
 }

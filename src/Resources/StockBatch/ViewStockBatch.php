@@ -19,7 +19,7 @@ class ViewStockBatch extends ApiResource
       'stock'          => $this->stock,
       'stock_spell'    => $this->stock,
       'batch'          => $this->relationValidation('batch', function () {
-        return $this->batch->toViewApi();
+        return $this->batch->toViewApi()->resolve();
       }),
       'created_at'     => $this->created_at,
       'updated_at'     => $this->updated_at

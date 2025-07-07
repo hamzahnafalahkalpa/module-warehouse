@@ -34,14 +34,14 @@ class StockBatch extends MainStock
         });
     }
 
-    public function toViewApi()
+    public function getViewResource()
     {
-        return new ViewStockBatch($this);
+        return ViewStockBatch::class;
     }
 
-    public function toShowApi()
+    public function getShowResource()
     {
-        return new ViewStockBatch($this);
+        return ViewStockBatch::class;
     }
 
     //EIGER SECTION

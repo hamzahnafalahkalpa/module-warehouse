@@ -2,36 +2,25 @@
 
 namespace Hanafalah\ModuleWarehouse\Models\Building;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Hanafalah\LaravelSupport\Models\BaseModel;
+use Hanafalah\LaravelSupport\Concerns\Support\HasPhone;
+use Hanafalah\LaravelSupport\Models\Unicode\Unicode;
+use Hanafalah\ModuleRegional\Concerns\HasAddress;
 use Hanafalah\ModuleWarehouse\Resources\Building\ViewBuilding;
 
-class Building extends BaseModel
+class Building extends Unicode
 {
-    use SoftDeletes;
+    use HasAddress, HasPhone;
 
-    protected $list = ['id', 'name'];
+    protected $table = 'unicodes';
 
-    protected $casts = [
-        'name' => 'string'
-    ];
-
-    public function toViewApi()
-    {
-        return new ViewBuilding($this);
+    public function getViewResource(){
+        return ViewBuilding::class;
     }
 
-    public function toShowApi()
-    {
-        return new ViewBuilding($this);
+    public function getShowResource(){
+        return ViewBuilding::class;
     }
 
-    public function room()
-    {
-        return $this->hasOneModel('room');
-    }
-    public function rooms()
-    {
-        return $this->hasManyModel('Building');
-    }
+    public function room(){return $this->hasOneModel('room');}
+    public function rooms(){return $this->hasManyModel('Building');}
 }

@@ -17,17 +17,17 @@ class ShowStock extends ViewStock
   {
     $arr = [
       'subject'    => $this->relationValidation('subject', function () {
-        return $this->subject->toViewApi();
+        return $this->subject->toViewApi()->resolve();
       }),
       'funding'    => $this->relationValidation('funding', function () {
-        return $this->funding->toShowApi();
+        return $this->funding->toShowApi()->resolve();
       }),
       'warehouse'  => $this->relationValidation('warehouse', function () {
-        return $this->warehouse->toViewApi();
+        return $this->warehouse->toViewApi()->resolve();
       }),
       'stock_batches'  => $this->relationValidation('stockBatches', function () {
         return $this->stockBatches->transform(function ($stockBatch) {
-          return $stockBatch->toShowApi();
+          return $stockBatch->toShowApi()->resolve();
         });
       })
     ];

@@ -14,23 +14,23 @@ class ShowStockMovement extends ViewStockMovement
     {
         $arr = [
             'card_stock' => $this->relationValidation('cardStock', function () {
-                return $this->cardStock->toShowApi();
+                return $this->cardStock->toShowApi()->resolve();
             }),
             'item_stock' => $this->relationValidation('itemStock', function () {
-                return $this->itemStock->toViewApi();
+                return $this->itemStock->toViewApi()->resolve();
             }),
             'childs'        => $this->relationValidation('childs', function () {
                 return $this->childs->transform(function ($child) {
-                    return $child->toShowApi();
+                    return $child->toShowApi()->resolve();
                 });
             }),
             'batch_movements' => $this->relationValidation('batchMovements', function () {
                 return $this->batchMovements->transform(function ($batchMovement) {
-                    return $batchMovement->toShowApi();
+                    return $batchMovement->toShowApi()->resolve();
                 });
             }),
             'goods_receipt_unit' => $this->relationValidation('goodsReceiptUnit', function () {
-                return $this->goodsReceiptUnit->toShowApi();
+                return $this->goodsReceiptUnit->toShowApi()->resolve();
             }),
         ];
         $arr = $this->mergeArray(parent::toArray($request), $arr);

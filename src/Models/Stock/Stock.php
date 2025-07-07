@@ -14,6 +14,10 @@ class Stock extends MainStock
         'id',
         'parent_id',
         'funding_id',
+        'supplier_type',
+        'supplier_id',
+        'procurement_type',
+        'procurement_id',
         'subject_type',
         'subject_id',
         'warehouse_type',
@@ -38,60 +42,70 @@ class Stock extends MainStock
                 ]);
                 $query->parent_id = $parent_model->getKey();
             }
+            static::initPropsAttribute($query);
         });
-        // static::created(function($query){
-        //     if (isset($query->parent_id)) static::recalculatingStock($query);
-        // });
-        // static::updated(function($query){
-        //     if (isset($query->parent_id)) static::recalculatingStock($query);
-        // });
+        static::updating(function ($query) {
+            static::initPropsAttribute($query);
+        });
     }
 
-    // private static function recalculatingStock($query){
-    //     if ($query->isDirty('stock')) {
-    //         $stock          = $query->stock ?? 0;
-    //         $original_stock = $query->getOriginal('stock');
-    //         $parent         = $query->parent;
-    //         if (isset($parent)){
-    //             $parent->stock += $stock - $original_stock;
-    //             $parent->save();
-    //         }
-    //     }
-    // }
-
-    public function toViewApi()
-    {
-        return new ViewStock($this);
+    private static function initPropsAttribute(&$query){
+        $new = new static();
+        if (isset($query->funding_id) ){
+            $original = $query->getOriginal('funding_id');
+            if ($query->funding_id !== $original){
+                $query->props_funding = $new->FundingModel()
+                                              ->findOrFail($query->funding_id)->toViewApi()->only(['id','name']);
+            }
+        }
+        if (isset($query->supplier_id)){
+            $original = $query->getOriginal('supplier_id');
+            if ($query->supplier_id !== $original){
+                $query->props_supplier = $new->{$query->supplier_type.'Model'}()
+                                              ->findOrFail($query->supplier_id)->toViewApi()->only(['id','name']);
+            }
+        }
+        if (isset($query->procurement_id)){
+            $original = $query->getOriginal('procurement_id');
+            if ($query->procurement_id !== $original){
+                $query->props_procurement = $new->{$query->procurement_type.'Model'}()
+                                              ->findOrFail($query->procurement_id)->toViewApi()->only(['id','name']);
+            }
+        }
+        if (isset($query->warehouse_id)){
+            $original = $query->getOriginal('warehouse_id');
+            if ($query->warehouse_id !== $original){
+                $query->props_warehouse = $new->{$query->warehouse_type.'Model'}()
+                                              ->findOrFail($query->warehouse_id)->toViewApi()->only(['id','name']);
+            }
+        }
     }
 
-    public function toShowApi()
-    {
-        return new ShowStock($this);
+    public function getViewResource(){
+        return ViewStock::class;
+    }
+
+    public function getShowResource(){
+        return ShowStock::class;
+    }
+
+    public function viewUsingRelation(): array{
+        return [];
+    }
+
+    public function showUsingRelation(): array{
+        return [];
     }
 
     //EIGER SECTION
-    public function subject()
-    {
-        return $this->morphTo('subject');
-    }
-    public function warehouse()
-    {
-        return $this->morphTo('warehouse');
-    }
-    public function stockBatch()
-    {
-        return $this->hasOneModel('StockBatch', 'stock_id');
-    }
-    public function stockBatches()
-    {
-        return $this->hasManyModel('StockBatch', 'stock_id');
-    }
-    public function funding()
-    {
-        return $this->belongsToModel('Funding');
-    }
-    public function batches()
-    {
+    public function subject(){return $this->morphTo('subject');}
+    public function warehouse(){return $this->morphTo('warehouse');}
+    public function stockBatch(){return $this->hasOneModel('StockBatch', 'stock_id');}
+    public function stockBatches(){return $this->hasManyModel('StockBatch', 'stock_id');}
+    public function funding(){return $this->belongsToModel('Funding');}
+    public function supplier(){return $this->morphTo();}
+    public function procurement(){return $this->morphTo();}
+    public function batches(){
         return $this->belongsToManyModel(
             'Batch',
             'StockBatch',

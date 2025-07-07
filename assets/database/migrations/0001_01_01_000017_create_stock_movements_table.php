@@ -45,16 +45,17 @@ return new class extends Migration
                     ->index()->constrained()->restrictOnDelete()->cascadeOnUpdate();
 
                 $table->foreignIdFor($goods::class)->nullable(true)
-                    ->index()->constrained($goods->getTable(), 'id', 'gds_stck')->restrictOnDelete()->cascadeOnUpdate();
+                    ->index()->constrained($goods->getTable(), $goods->getKeyName(), 'gds_stck')->restrictOnDelete()->cascadeOnUpdate();
 
                 $table->decimal('qty', 14, 6)->default(0)->nullable(false);
+
                 $table->foreignIdFor($item_stuff::class, 'qty_unit_id')->nullable(true)
-                    ->index()->constrained($item_stuff->getTable(), 'qty_unit_id', 'idx_stuff_unit')
+                    ->index()->constrained($item_stuff->getTable(), $item_stock->getKeyName(), 'idx_stuff_unit')
                     ->restrictOnDelete()->cascadeOnUpdate();
 
                 $table->decimal('opening_stock', 14, 6)->default(0)->nullable(true);
                 $table->decimal('closing_stock', 14, 6)->default(0)->nullable(true);
-                $table->unsignedTinyInteger('direction')->nullable(false);
+                $table->string('direction',50)->nullable(false);
 
                 $table->json('props')->nullable();
                 $table->timestamps();

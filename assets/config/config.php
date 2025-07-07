@@ -1,10 +1,5 @@
 <?php
 
-use Hanafalah\ModuleWarehouse\{
-    Models as ModuleWarehouseModels,
-    Contracts
-};
-
 return [
     'namespace' => 'Hanafalah\\ModuleWarehouse',
     'app' => [
@@ -25,5 +20,10 @@ return [
         'models' => [
         ]
     ],
-    'warehouse' => ModuleWarehouseModels\Building\Room::class
+    'warehouse' => 'Room',
+    'model_has_room_types' => [
+        'user' => [
+            'schema' => 'ModelHasRoom'
+        ]
+    ]
 ];

@@ -20,11 +20,11 @@ class ViewGoodsReceiptUnit extends ApiResource
       'id'            => $this->id,
       'card_stock_id' => $this->card_stock_id,
       'card_stock'    => $this->relationValidation('cardStock', function () {
-        return $this->cardStock->toViewApi();
+        return $this->cardStock->toViewApi()->resolve();
       }),
       'unit_id'       => $this->unit_id,
       'unit'          => $this->relationValidation('unit', function () {
-        return $this->unit->toViewApi();
+        return $this->unit->toViewApi()->resolve();
       }),
       'unit_name'     => $this->unit_name,
       'unit_qty'      => $this->unit_qty,

@@ -29,7 +29,7 @@ return new class extends Migration
             Schema::create($table_name, function (Blueprint $table) {
                 $storage = app(config('database.models.Storage', Storage::class));
 
-                $table->id();
+                $table->ulid('id')->primary();
                 $table->string('model_type', 50)->nullable(false);
                 $table->string('model_id', 36)->nullable(false);
 

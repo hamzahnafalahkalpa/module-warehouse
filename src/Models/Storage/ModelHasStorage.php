@@ -5,11 +5,15 @@ namespace Hanafalah\ModuleWarehouse\Models\Storage;
 use Hanafalah\LaravelHasProps\Concerns\HasProps;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Hanafalah\LaravelSupport\Models\BaseModel;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 
 class ModelHasStorage extends BaseModel
 {
-    use HasProps, SoftDeletes;
+    use HasUlids, HasProps, SoftDeletes;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'id';
     protected $list = [
         'id',
         'model_type',

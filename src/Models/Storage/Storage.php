@@ -4,11 +4,14 @@ namespace Hanafalah\ModuleWarehouse\Models\Storage;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Hanafalah\LaravelSupport\Models\BaseModel;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 
 class Storage extends BaseModel
 {
-    use SoftDeletes;
+    use HasUlids, SoftDeletes;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $list = [
         'id',
         'name'

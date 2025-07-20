@@ -12,7 +12,7 @@ use Hanafalah\ModuleWarehouse\Contracts\Data\StockMovementData;
 class StockMovement extends PackageManagement implements ContractsStockMovement
 {
     protected string $__entity = 'StockMovement';
-    public static $stock_movement_model;
+    public $stock_movement_model;
 
 
     protected function initiateItemStock(StockMovementData &$stock_movement_dto){
@@ -61,6 +61,6 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
         $this->fillingProps($stock_movement, $stock_movement_dto->props);
         $stock_movement->save();
 
-        return static::$stock_movement_model = $stock_movement;
+        return $this->stock_movement_model = $stock_movement;
     }
 }

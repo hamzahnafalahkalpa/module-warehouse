@@ -12,7 +12,7 @@ use Hanafalah\ModuleWarehouse\Contracts\Data\WarehouseItemData;
 class WarehouseItem extends BaseModuleWarehouse implements ContractsWarehouseItem
 {
     protected string $__entity = 'WarehouseItem';
-    public static $warehouse_item_model;
+    public $warehouse_item_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [
@@ -41,6 +41,6 @@ class WarehouseItem extends BaseModuleWarehouse implements ContractsWarehouseIte
         $warehouse_item = $this->usingEntity()->updateOrCreate(...$create);
         $this->fillingProps($warehouse_item,$warehouse_item_dto->props);
         $warehouse_item->save();
-        return static::$warehouse_item_model = $warehouse_item;
+        return $this->warehouse_item_model = $warehouse_item;
     }
 }

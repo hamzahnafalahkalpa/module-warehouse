@@ -8,7 +8,7 @@ use Hanafalah\ModuleWarehouse\Contracts\Schemas\RoomItemCategory as ContractsRoo
 class RoomItemCategory extends Unicode implements ContractsRoomItemCategory
 {
     protected string $__entity = 'RoomItemCategory';
-    public static $room_item_category_model;
+    public $room_item_category_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [

@@ -9,7 +9,7 @@ use Hanafalah\ModuleWarehouse\Contracts\Data\ModelHasRoomData;
 class ModelHasRoom extends ModelHasWarehouse implements ContractsModelHasRoom
 {
     protected string $__entity = 'ModelHasRoom';
-    public static $model_has_room_model;
+    public $model_has_room_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [
@@ -22,6 +22,6 @@ class ModelHasRoom extends ModelHasWarehouse implements ContractsModelHasRoom
 
     public function prepareStoreModelHasRoom(ModelHasRoomData $model_has_room_dto): Model{
         $model_has_room = parent::prepareStoreModelHasWarehouse($model_has_room_dto);
-        return static::$model_has_room_model = $model_has_room;
+        return $this->model_has_room_model = $model_has_room;
     }
 }

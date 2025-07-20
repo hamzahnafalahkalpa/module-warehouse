@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\ModelInspector;
 class BatchMovement extends PackageManagement implements ContractsBatchMovement
 {
     protected string $__entity = 'BatchMovement';
-    public static $batch_movement_model;
+    public $batch_movement_model;
 
     public function prepareStoreBatchMovement(?array $attributes = null): ModelInspector{
         $attributes ??= request()->all();
@@ -52,6 +52,6 @@ class BatchMovement extends PackageManagement implements ContractsBatchMovement
         $batch_movement = $this->BatchMovementModel()->updateOrCreate($guard, [
             'qty' => $attributes['qty'] ?? 0,
         ]);
-        return static::$batch_movement_model = $batch_movement;
+        return $this->batch_movement_model = $batch_movement;
     }
 }

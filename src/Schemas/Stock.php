@@ -10,7 +10,7 @@ use Hanafalah\ModuleWarehouse\Contracts\Schemas\Stock as ContractStock;
 class Stock extends PackageManagement implements ContractStock
 {
     protected string $__entity = 'Stock';
-    public static $stock_model;
+    public $stock_model;
 
     public function prepareStoreStock(StockData $stock_dto): Model{
         if (isset($stock_dto->id)) {
@@ -50,6 +50,6 @@ class Stock extends PackageManagement implements ContractStock
         }
         $this->fillingProps($stock_model,$stock_dto->props);
         $stock_model->save();
-        return static::$stock_model = $stock_model;
+        return $this->stock_model = $stock_model;
     }
 }

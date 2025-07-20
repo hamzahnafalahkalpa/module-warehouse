@@ -11,7 +11,7 @@ use Hanafalah\ModuleWarehouse\Resources\Batch as ResourcesBatch;
 class Batch extends PackageManagement implements ContractsBatch
 {
     protected string $__entity = 'Batch';
-    public static $batch_model;
+    public $batch_model;
 
     public function prepareStoreBatch(?array $attributes = null): Model{
         $attributes ??= request()->all();

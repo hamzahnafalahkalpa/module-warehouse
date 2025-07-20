@@ -12,7 +12,7 @@ use Hanafalah\ModuleWarehouse\Contracts\Schemas\StockBatch as ContractStockBatch
 class StockBatch extends PackageManagement implements ContractStockBatch
 {
     protected string $__entity = 'StockBatch';
-    public static $stock_batch_model;
+    public $stock_batch_model;
 
     protected function viewUsingRelation(): array{
         return [];
@@ -23,7 +23,7 @@ class StockBatch extends PackageManagement implements ContractStockBatch
     }
 
     public function getStockBatch(): mixed{
-        return static::$stock_batch_model;
+        return $this->stock_batch_model;
     }
 
     public function prepareStoreStockBatch(StockBatchData $stock_batch_dto): Model{
@@ -42,7 +42,7 @@ class StockBatch extends PackageManagement implements ContractStockBatch
         $model->stock += $stock_batch_dto->stock;
         $model->save();
 
-        return static::$stock_batch_model = $model;
+        return $this->stock_batch_model = $model;
     }
 
     public function storeStockBatch(?StockBatchData $stock_batch_dto = null): array{
@@ -56,7 +56,7 @@ class StockBatch extends PackageManagement implements ContractStockBatch
         if (!isset($attributes['stock_id'])) throw new \Exception('stock_id is required');
 
         $model = $this->stockBatch()->where('stock_id', $attributes['stock_id'])->get();
-        return static::$stock_batch_model = $model;
+        return $this->stock_batch_model = $model;
     }
 
     public function viewStockBatchList(): array{

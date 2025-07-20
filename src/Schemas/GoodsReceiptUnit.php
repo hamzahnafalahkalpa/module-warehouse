@@ -10,7 +10,7 @@ use Hanafalah\ModuleWarehouse\Contracts\Schemas\GoodsReceiptUnit as ContractGood
 class GoodsReceiptUnit extends PackageManagement implements ContractGoods
 {
     protected string $__entity = 'GoodsReceiptUnit';
-    public static $goods_receipt_unit_model;
+    public $goods_receipt_unit_model;
 
     public function prepareStoreGoodsReceiptUnit(GoodsReceiptUnitData $goods_receipt_unit_dto): Model
     {
@@ -24,6 +24,6 @@ class GoodsReceiptUnit extends PackageManagement implements ContractGoods
         ]);
         $this->fillingProps($model, $goods_receipt_unit_dto->props);
         $model->save();
-        return static::$goods_receipt_unit_model = $model;
+        return $this->goods_receipt_unit_model = $model;
     }
 }

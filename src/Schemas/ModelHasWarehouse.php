@@ -13,7 +13,7 @@ use Hanafalah\ModuleWarehouse\Contracts\Data\ModelHasWarehouseData;
 class ModelHasWarehouse extends BaseModuleWarehouse implements ContractsModelHasWarehouse
 {
     protected string $__entity = 'ModelHasWarehouse';
-    public static $model_has_warehouse_model;
+    public $model_has_warehouse_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [
@@ -40,6 +40,6 @@ class ModelHasWarehouse extends BaseModuleWarehouse implements ContractsModelHas
         $model_has_warehouse = $this->usingEntity()->updateOrCreate(...$create);
         $this->fillingProps($model_has_warehouse,$model_has_warehouse_dto->props);
         $model_has_warehouse->save();
-        return static::$model_has_warehouse_model = $model_has_warehouse;
+        return $this->model_has_warehouse_model = $model_has_warehouse;
     }
 }

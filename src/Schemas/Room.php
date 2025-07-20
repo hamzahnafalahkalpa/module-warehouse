@@ -12,7 +12,7 @@ use Hanafalah\ModuleWarehouse\Contracts\Schemas\Room as ContractRoom;
 class Room extends PackageManagement implements ContractRoom
 {
     protected string $__entity = 'Room';
-    public static $room_model;
+    public $room_model;
     protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [
@@ -51,7 +51,7 @@ class Room extends PackageManagement implements ContractRoom
         $this->fillingProps($room,$room_dto->props);
         $room->save();
         $this->forgetTags('room');
-        return static::$room_model = $room;
+        return $this->room_model = $room;
     }
 
     protected function prepareStoreModelHasRooms(RoomData &$room_dto): self{

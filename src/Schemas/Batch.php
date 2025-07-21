@@ -21,7 +21,7 @@ class Batch extends PackageManagement implements ContractsBatch
             'expired_at' => $attributes['expired_at']
         ]);
 
-        static::$batch_model = $batch;
+        $this->batch_model = $batch;
         return $batch;
     }
 }

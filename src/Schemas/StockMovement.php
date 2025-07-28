@@ -14,7 +14,6 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
     protected string $__entity = 'StockMovement';
     public $stock_movement_model;
 
-
     protected function initiateItemStock(StockMovementData &$stock_movement_dto){
         if (isset($stock_movement_dto->item_stock)) {
             $item_stock = $this->schemaContract('item_stock')->prepareStoreItemStock($stock_movement_dto->item_stock);
@@ -22,8 +21,7 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
         }
     }
 
-    public function prepareStoreStockMovement(StockMovementData $stock_movement_dto): Model
-    {
+    public function prepareStoreStockMovement(StockMovementData $stock_movement_dto): Model{
         $add = [
             'qty'                   => $stock_movement_dto->qty ?? 0,
             'opening_stock'         => $stock_movement_dto->opening_stock ?? 0,
@@ -60,7 +58,6 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
         }
         $this->fillingProps($stock_movement, $stock_movement_dto->props);
         $stock_movement->save();
-
         return $this->stock_movement_model = $stock_movement;
     }
 }

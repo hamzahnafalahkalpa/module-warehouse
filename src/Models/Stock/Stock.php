@@ -25,8 +25,32 @@ class Stock extends MainStock
         'stock'
     ];
 
-    protected static function booted(): void
-    {
+    protected $casts = [
+        'funding_id'       => 'string',
+        'supplier_id'      => 'string',
+        'procurement_id'   => 'string',
+        'subject_id'       => 'string',
+        'warehouse_type'   => 'string',
+        'warehouse_id'     => 'string',
+        'warehouse_name'   => 'string',
+        'supplier_name'    => 'string',
+        'procurement_name' => 'string',
+        'subject_name'     => 'string',
+        'funding_name'     => 'string',
+        'stock'            => 'float',
+    ]; 
+
+    public function getPropsQuery(): array{
+        return [
+            'warehouse_name'   => 'props->prop_warehouse->name',
+            'supplier_name'    => 'props->prop_supplier->name',
+            'procurement_name' => 'props->prop_procurement->name',
+            'subject_name'     => 'props->prop_subject->name',
+            'funding_name'     => 'props->prop_funding->name'
+        ];
+    }
+
+    protected static function booted(): void{
         parent::booted();
         static::creating(function ($query) {
             //CHECK AND CREATE PARENT STOCK IF STOCK HAS FUNDING AND PARENT STOCK DOESNT EXIST

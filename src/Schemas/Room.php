@@ -24,7 +24,7 @@ class Room extends PackageManagement implements ContractRoom
     ];
 
     public function createRoom(RoomData $room_dto): Model{
-        return $this->RoomModel()->updateOrCreate([
+        return $this->usingEntity()->updateOrCreate([
             'id'          => $room_dto->id ?? null,
         ], [
             'building_id' => $room_dto->building_id,
@@ -50,24 +50,40 @@ class Room extends PackageManagement implements ContractRoom
 
         $this->fillingProps($room,$room_dto->props);
         $room->save();
-        $this->forgetTags('room');
         return $this->room_model = $room;
     }
 
     protected function prepareStoreModelHasRooms(RoomData &$room_dto): self{
+        $model_has_room_ids = [];
         if (isset($room_dto->model_has_rooms) && count($room_dto->model_has_rooms) > 0){
-            foreach ($room_dto->model_has_rooms as $model_has_room) {
+            foreach ($room_dto->model_has_rooms as &$model_has_room) {
+                $model_has_room->warehouse_type ??= 'Room';
                 $model_has_room->warehouse_id = $room_dto->id;
-                $this->prepareStoreModelHasRoom($model_has_room);
+                $model_has_room_model = $this->prepareStoreModelHasRoom($model_has_room);
+                $model_has_room_ids[] = $model_has_room_model->id;
             }
         }
+        $this->ModelHasRoomModel()->whereNotIn('id', $model_has_room_ids)
+            ->where('warehouse_id',$room_dto->id)
+            ->where('warehouse_type','Room')
+            ->delete();
         return $this;
     }
 
     protected function prepareStoreWarehouseItems(RoomData &$room_dto): self{
+        $warehouse_item_ids = [];
         if (isset($room_dto->warehouse_items) && count($room_dto->warehouse_items) > 0){
-            foreach ($room_dto->warehouse_items as $warehouse_item) $this->preparreStoreWarehouseItem($warehouse_item);
+            foreach ($room_dto->warehouse_items as &$warehouse_item) {
+                $warehouse_item->warehouse_type ??= 'Room';
+                $warehouse_item->warehouse_id   = $room_dto->id;
+                $warehouse_item_model = $this->prepareStoreWarehouseItem($warehouse_item);
+                $warehouse_item_ids[] = $warehouse_item_model->getKey();
+            }
         }
+        $this->WarehouseItemModel()->whereNotIn('id', $warehouse_item_ids)
+            ->where('warehouse_id',$room_dto->id)
+            ->where('warehouse_type','Room')
+            ->delete();
         return $this;
     }
 
@@ -78,6 +94,6 @@ class Room extends PackageManagement implements ContractRoom
 
     protected function prepareStoreWarehouseItem(WarehouseItemData &$warehouse_item): Model{
         return $this->schemaContract('warehouse_item')
-                    ->prepareStoreWarehouseitem($warehouse_item);
+                    ->prepareStoreWarehouseItem($warehouse_item);
     }
 }

@@ -88,5 +88,4 @@ class Room extends BaseModel
     public function refModelHasRooms(){return $this->morphManyModel('ModelHasRoom', 'reference');}
     public function roomHasItem(){return $this->hasOneModel('RoomHasItem');}
     public function roomHasItems(){return $this->hasManyModel('RoomHasItem');}
-    //END EIGER SECTION
 }

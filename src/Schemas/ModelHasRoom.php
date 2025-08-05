@@ -21,7 +21,7 @@ class ModelHasRoom extends ModelHasWarehouse implements ContractsModelHasRoom
     ];
 
     public function prepareStoreModelHasRoom(ModelHasRoomData $model_has_room_dto): Model{
-        $model_has_room = parent::prepareStoreModelHasWarehouse($model_has_room_dto);
+        $model_has_room = $this->prepareStoreModelHasWarehouse($model_has_room_dto);
         return $this->model_has_room_model = $model_has_room;
     }
 }

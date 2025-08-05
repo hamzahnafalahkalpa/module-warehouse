@@ -15,11 +15,11 @@ class WarehouseItemData extends Data implements DataWarehouseItemData
 
     #[MapInputName('warehouse_type')]
     #[MapName('warehouse_type')]
-    public string $warehouse_type;
+    public ?string $warehouse_type = null;
 
     #[MapInputName('warehouse_id')]
     #[MapName('warehouse_id')]
-    public mixed $warehouse_id;
+    public mixed $warehouse_id = null;
 
     #[MapInputName('item_type')]
     #[MapName('item_type')]
@@ -28,6 +28,10 @@ class WarehouseItemData extends Data implements DataWarehouseItemData
     #[MapInputName('item_id')]
     #[MapName('item_id')]
     public mixed $item_id;
+
+    #[MapInputName('item_model')]
+    #[MapName('item_model')]
+    public ?object $item_model;
 
     #[MapInputName('flag')]
     #[MapName('flag')]
@@ -51,9 +55,6 @@ class WarehouseItemData extends Data implements DataWarehouseItemData
         $item = isset($data->item_id) ? $item->findOrFail($data->item_id) : $item;
         $props['prop_item'] = $item->toViewApi()->resolve();
 
-        $warehouse = $new->{$data->warehouse_type.'Model'}();
-        $warehouse = isset($data->warehouse_id) ? $warehouse->findOrFail($data->warehouse_id) : $warehouse;
-        $props['prop_warehouse'] = $warehouse->toViewApi()->resolve();
         return $data;
     }
 }

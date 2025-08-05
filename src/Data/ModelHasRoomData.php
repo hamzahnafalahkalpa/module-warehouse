@@ -2,7 +2,6 @@
 
 namespace Hanafalah\ModuleWarehouse\Data;
 
-use Hanafalah\LaravelSupport\Supports\Data;
 use Hanafalah\ModuleWarehouse\Contracts\Data\ModelHasRoomData as DataModelHasRoomData;
 
 class ModelHasRoomData extends ModelHasWarehouseData implements DataModelHasRoomData

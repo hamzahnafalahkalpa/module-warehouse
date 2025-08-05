@@ -23,7 +23,7 @@ class WarehouseItem extends BaseModuleWarehouse implements ContractsWarehouseIte
         ]
     ];
 
-    public function prepareStoreWarehouseItem(WarehouseitemData $warehouse_item_dto): Model{
+    public function prepareStoreWarehouseItem(WarehouseItemData $warehouse_item_dto): Model{
         $add = [
             'flag' => $warehouse_item_dto->flag,
             'warehouse_id' => $warehouse_item_dto->warehouse_id,

@@ -41,21 +41,29 @@ class StockMovement extends PackageManagement implements ContractsStockMovement
                 'direction'             => $stock_movement_dto->direction
             ];
         }
-        $stock_movement = $this->StockMovementModel()->updateOrCreate($guard, $add);
+        $stock_movement = $this->usingEntity()->updateOrCreate($guard, $add);
         if (isset($stock_movement_dto->batch_movements) && count($stock_movement_dto->batch_movements) > 0) {
             $batch_movement_schema = $this->schemaContract('batch_movement');
-            // foreach ($stock_movement_dto->batch_movements as $batch_movement) {
-            //     $batch_movement_schema->prepareStoreBatchMovement([
-            //         'id'                => $batch_movement['id'] ?? null,
-            //         'stock_id'          => $stock_movement->item_stock_id,
-            //         'stock_movement_id' => $stock_movement->getKey(),
-            //         'batch_id'          => $batch_movement['batch_id'] ?? null,
-            //         'batch_no'          => $batch_movement['batch_no'] ?? null,
-            //         'expired_at'        => $batch_movement['expired_at'] ?? null,
-            //         'qty'               => $batch_movement['qty'] ?? 0
-            //     ]);
-            // }
+            foreach ($stock_movement_dto->batch_movements as $batch_movement) {
+                $batch_movement->stock_movement_id = $stock_movement->getKey();
+                // $batch_movement_schema->prepareStoreBatchMovement([
+                //     'id'                => $batch_movement['id'] ?? null,
+                //     'stock_id'          => $stock_movement->item_stock_id,
+                //     'stock_movement_id' => $stock_movement->getKey(),
+                //     'batch_id'          => $batch_movement['batch_id'] ?? null,
+                //     'batch_no'          => $batch_movement['batch_no'] ?? null,
+                //     'expired_at'        => $batch_movement['expired_at'] ?? null,
+                //     'qty'               => $batch_movement['qty'] ?? 0
+                // ]);
+            }
         }
+
+        if (isset($stock_movement_dto->reference_type)){
+            $reference = $this->{$stock_movement_dto->reference_type.'Model'}();
+            if (isset($stock_movement_dto->reference_id)) $reference = $reference->findOrFail($stock_movement_dto->reference_id);
+            $props['prop_reference'] = $reference->toViewApi()->resolve();
+        }
+
         $this->fillingProps($stock_movement, $stock_movement_dto->props);
         $stock_movement->save();
         return $this->stock_movement_model = $stock_movement;

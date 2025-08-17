@@ -99,12 +99,7 @@ class StockMovementData extends Data implements DataStockMovementData{
         $item_stock = $new->ItemStockModel();
         if (isset($data->item_stock_id)) $item_stock = $item_stock->findOrFail($data->item_stock_id);
         $props['prop_item_stock'] = $item_stock->toViewApi()->resolve();
-
-        if (isset($data->reference_type)){
-            $reference = $new->{$data->reference_type.'Model'}();
-            if (isset($data->reference_id)) $reference = $reference->findOrFail($data->reference_id);
-            $props['prop_reference'] = $reference->toViewApi()->resolve();
-        }
+        
         return $data;
     }
 }

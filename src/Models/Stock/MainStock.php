@@ -2,13 +2,14 @@
 
 namespace Hanafalah\ModuleWarehouse\Models\Stock;
 
+use Hanafalah\LaravelHasProps\Concerns\HasProps;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Hanafalah\LaravelSupport\Models\BaseModel;
 
 class MainStock extends BaseModel
 {
-    use HasUlids, SoftDeletes;
+    use HasUlids, SoftDeletes, HasProps;
 
     public $incrementing  = false;
     protected $primaryKey = 'id';

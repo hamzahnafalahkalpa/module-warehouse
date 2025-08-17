@@ -5,6 +5,7 @@ namespace Hanafalah\ModuleWarehouse\Data;
 use Hanafalah\LaravelSupport\Supports\Data;
 use Hanafalah\ModuleWarehouse\Contracts\Data\BatchData;
 use Hanafalah\ModuleWarehouse\Contracts\Data\BatchMovementData as DataBatchMovementData;
+use Hanafalah\ModuleWarehouse\Contracts\Data\StockBatchData;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Attributes\MapName;
 
@@ -37,6 +38,10 @@ class BatchMovementData extends Data implements DataBatchMovementData{
     #[MapName('stock_batch_id')]
     public mixed $stock_batch_id = null;
 
+    #[MapInputName('stock_batch')]
+    #[MapName('stock_batch')]
+    public ?StockBatchData $stock_batch = null;
+
     #[MapInputName('opening_stock')]
     #[MapName('opening_stock')]
     public ?float $openingStock = null;
@@ -48,8 +53,4 @@ class BatchMovementData extends Data implements DataBatchMovementData{
     #[MapInputName('props')]
     #[MapName('props')]
     public ?array $props = null;
-
-    public static function after(BatchMovementData $data): BatchMovementData{
-        return $data;
-    }
 }

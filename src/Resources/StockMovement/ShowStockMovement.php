@@ -21,12 +21,12 @@ class ShowStockMovement extends ViewStockMovement
             }),
             'childs'        => $this->relationValidation('childs', function () {
                 return $this->childs->transform(function ($child) {
-                    return $child->toShowApi()->resolve();
+                    return $child->toShowApi();
                 });
             }),
             'batch_movements' => $this->relationValidation('batchMovements', function () {
                 return $this->batchMovements->transform(function ($batchMovement) {
-                    return $batchMovement->toShowApi()->resolve();
+                    return $batchMovement->toShowApi();
                 });
             }),
             'goods_receipt_unit' => $this->relationValidation('goodsReceiptUnit', function () {

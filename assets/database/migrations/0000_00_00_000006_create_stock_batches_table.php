@@ -45,6 +45,7 @@ return new class extends Migration
                     ->cascadeOnUpdate();
 
                 $table->decimal('stock', 12, 4)->nullable(false);
+                $table->json('props')->nullable(true);
                 $table->timestamps();
                 $table->softDeletes();
             });

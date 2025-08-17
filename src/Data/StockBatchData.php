@@ -15,11 +15,11 @@ class StockBatchData extends Data implements DataStockBatchData{
 
     #[MapInputName('stock_id')]
     #[MapName('stock_id')]
-    public mixed $stock_id;
+    public mixed $stock_id = null;
 
     #[MapInputName('batch_id')]
     #[MapName('batch_id')]
-    public mixed $batch_id;
+    public mixed $batch_id = null;
 
     #[MapInputName('batch')]
     #[MapName('batch')]
@@ -28,4 +28,8 @@ class StockBatchData extends Data implements DataStockBatchData{
     #[MapInputName('stock')]
     #[MapName('stock')]
     public ?int $stock = 0;
+
+    #[MapInputName('props')]
+    #[MapName('props')]
+    public ?array $props = null;
 }

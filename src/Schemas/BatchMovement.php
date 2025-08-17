@@ -6,52 +6,43 @@ use Hanafalah\LaravelSupport\Supports\PackageManagement;
 use Hanafalah\ModuleWarehouse\{
     Contracts\Schemas\BatchMovement as ContractsBatchMovement,
 };
-use Illuminate\Database\Eloquent\ModelInspector;
+use Hanafalah\ModuleWarehouse\Contracts\Data\BatchMovementData;
+use Illuminate\Database\Eloquent\Model;
 
 class BatchMovement extends PackageManagement implements ContractsBatchMovement
 {
     protected string $__entity = 'BatchMovement';
     public $batch_movement_model;
 
-    public function prepareStoreBatchMovement(?array $attributes = null): ModelInspector{
-        $attributes ??= request()->all();
-        if (isset($attributes['id'])) {
-            $guard = ['id' => $attributes['id']];
+    public function prepareStoreBatchMovement(BatchMovementData $batch_movement_dto): Model{
+        if (isset($batch_movement_dto->id)) {
+            $guard = ['id' => $batch_movement_dto->id];
         } else {
-            if (!isset($attributes['batch_id'])) {
-                if (isset($attributes['batch_no']) && $attributes['expired_at']) {
-                    $batch = $this->BatchModel()->firstOrCreate([
-                        'expired_at' => $attributes['expired_at'],
-                        'batch_no'   => $attributes['batch_no']
-                    ]);
-                    $attributes['batch_id'] = $batch->getKey();
-                } else {
-                    throw new \Exception('Batch ID not found');
-                }
+            if (isset($batch_movement_dto->batch)) {
+                $batch = $this->schemaContract('batch')->prepareStoreBatch($batch_movement_dto->batch);
+                $batch_movement_dto->batch_id = $batch->getKey();
+                $batch_movement_dto->props['porp_batch'] = $batch->toViewApiExcepts('created_at', 'updated_at');
             }
-            if (!isset($attributes['stock_movement_id'])) throw new \Exception('Stock Movement ID not found');
 
-            if (!isset($attributes['stock_batch_id'])) {
-                if (!isset($attributes['stock_id'])) throw new \Exception('Stock ID not found');
-                $stock = $this->StockModel()->find($attributes['stock_id']);
-                $stock_batch = $stock->stockBatch()->firstOrCreate([
-                    'batch_id' => $attributes['batch_id'],
-                    'stock_id' => $stock->getKey()
-                ], [
-                    'stock' => 0
-                ]);
-                $attributes['stock_batch_id'] = $stock_batch->getKey();
+            if (!isset($batch_movement_dto->stock_batch_id)) {
+                $stock_batch = &$batch_movement_dto->stock_batch;
+                if (!isset($stock_batch->stock_id)) throw new \Exception('Stock ID not found');
+                $stock_batch->batch_id = $batch_movement_dto->batch_id;                
+                $stock_batch_model = $this->schemaContract('stock_batch')->prepareStoreStockBatch($stock_batch);
+                $batch_movement_dto->stock_batch_id = $stock_batch_model->getKey();
             }
 
             $guard = [
-                'stock_batch_id'     => $attributes['stock_batch_id'],
-                'batch_id'           => $attributes['batch_id'],
-                'stock_movement_id'  => $attributes['stock_movement_id'],
+                'stock_batch_id'     => $batch_movement_dto->stock_batch_id,
+                'batch_id'           => $batch_movement_dto->batch_id,
+                'stock_movement_id'  => $batch_movement_dto->stock_movement_id,
             ];
         }
         $batch_movement = $this->BatchMovementModel()->updateOrCreate($guard, [
-            'qty' => $attributes['qty'] ?? 0,
+            'qty' => $batch_movement_dto->qty ?? 0,
         ]);
+        $this->fillingProps($batch_movement, $batch_movement_dto->props);
+        $batch_movement->save();
         return $this->batch_movement_model = $batch_movement;
     }
 }

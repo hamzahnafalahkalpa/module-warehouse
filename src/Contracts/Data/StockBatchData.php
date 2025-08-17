@@ -2,4 +2,6 @@
 
 namespace Hanafalah\ModuleWarehouse\Contracts\Data;
 
-interface StockBatchData{}
+use Spatie\LaravelData\Contracts\BaseData;
+
+interface StockBatchData extends BaseData{}

@@ -11,7 +11,8 @@ class StockBatch extends MainStock
         'parent_id',
         'stock_id',
         'batch_id',
-        'stock'
+        'stock',
+        'props'
     ];
 
     protected static function booted(): void

@@ -21,6 +21,7 @@ return [
         ]
     ],
     'warehouse' => 'Room',
+    'funding' => null,
     'model_has_room_types' => [
         'user' => [
             'schema' => 'ModelHasRoom'

@@ -23,4 +23,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @method array viewBuildingPaginate(?PaginateData $paginate_dto = null)
  * @method Builder building(mixed $conditionals = null)
  */
-interface Building extends Unicode{}
+interface Building extends Unicode{
+    public function prepareStoreBuilding(BuildingData $building_dto): Model;
+    public function building(mixed $conditionals = null): Builder;
+}

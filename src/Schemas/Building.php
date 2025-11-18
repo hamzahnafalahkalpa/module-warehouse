@@ -5,6 +5,8 @@ namespace Hanafalah\ModuleWarehouse\Schemas;
 use Hanafalah\LaravelSupport\Schemas\Unicode;
 use Hanafalah\ModuleWarehouse\Contracts\Data\BuildingData;
 use Hanafalah\ModuleWarehouse\Contracts\Schemas\Building as ContractBuilding;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Building extends Unicode implements ContractBuilding
 {

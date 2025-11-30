@@ -54,6 +54,11 @@ class StockData extends Data implements DataStockData{
     #[DataCollectionOf(StockBatchData::class)]
     public ?array $stock_batches = [];
 
+    #[MapInputName('childs')]
+    #[MapName('childs')]
+    #[DataCollectionOf(StockData::class)]
+    public ?array $childs = [];
+
     #[MapInputName('props')]
     #[MapName('props')]
     public ?array $props = [];

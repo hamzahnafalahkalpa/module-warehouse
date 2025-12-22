@@ -13,6 +13,14 @@ class Building extends Unicode
 
     protected $table = 'unicodes';
 
+    public function viewUsingRelation():array {
+        return [];
+    }
+
+    public function showUsingRelation():array {
+        return [];
+    }
+
     public function getViewResource(){
         return ViewBuilding::class;
     }

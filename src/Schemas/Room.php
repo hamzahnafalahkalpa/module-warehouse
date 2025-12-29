@@ -44,7 +44,6 @@ class Room extends PackageManagement implements ContractRoom
         }
         $room = $this->createRoom($room_dto);
         $room_dto->id = $room->getKey();
-
         $this->prepareStoreModelHasRooms($room_dto)
              ->prepareStoreWarehouseItems($room_dto);
 
@@ -57,6 +56,7 @@ class Room extends PackageManagement implements ContractRoom
         $model_has_room_ids = [];
         if (isset($room_dto->model_has_rooms) && count($room_dto->model_has_rooms) > 0){
             foreach ($room_dto->model_has_rooms as &$model_has_room) {
+                if (!isset($model_has_room->model_id)) continue;
                 $model_has_room->warehouse_type ??= 'Room';
                 $model_has_room->warehouse_id = $room_dto->id;
                 $model_has_room_model = $this->prepareStoreModelHasRoom($model_has_room);

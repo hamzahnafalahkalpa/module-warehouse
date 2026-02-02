@@ -22,6 +22,10 @@ class RoomData extends Data implements DataRoomData{
     #[MapName('room_number')]
     public ?string $room_number = null;
 
+    #[MapInputName('room_model')]
+    #[MapName('room_model')]
+    public ?object $room_model = null;
+
     #[MapInputName('building_id')]
     #[MapName('building_id')]
     public mixed $building_id = null;

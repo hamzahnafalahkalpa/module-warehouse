@@ -18,13 +18,13 @@ class Stock extends PackageManagement implements ContractStock
         } else {
             $guard = [
                 'subject_type'     => $stock_dto->subject_type,
-                'subject_id'       => $stock_dto->subject_id,
+                'subject_id'       => (string) $stock_dto->subject_id,
                 'warehouse_type'   => $stock_dto->warehouse_type,
-                'warehouse_id'     => $stock_dto->warehouse_id,
+                'warehouse_id'     => (string) $stock_dto->warehouse_id,
                 'procurement_type' => $stock_dto->procurement_type ?? null,
-                'procurement_id'   => $stock_dto->procurement_id ?? null,
+                'procurement_id'   => (string) $stock_dto->procurement_id ?? null,
                 'funding_id'       => $stock_dto->funding_id ?? null,
-                'supplier_id'      => $stock_dto->supplier_id ?? null,
+                'supplier_id'      => (string) $stock_dto->supplier_id ?? null,
                 'supplier_type'    => $stock_dto->supplier_type ?? null
             ];
         }
@@ -72,9 +72,9 @@ class Stock extends PackageManagement implements ContractStock
             foreach ($stock_dto->childs as &$child) {
                 $child->parent_id = $stock_model->getKey();
                 $child->subject_type ??= $stock_dto->subject_type;
-                $child->subject_id ??= $stock_dto->subject_id;
+                $child->subject_id ??= (string) $stock_dto->subject_id;
                 $child->warehouse_type ??= $stock_dto->warehouse_type;
-                $child->warehouse_id ??= $stock_dto->warehouse_id;
+                $child->warehouse_id ??= (string) $stock_dto->warehouse_id;
                 $stock += $child->stock ?? 0;
                 $this->prepareStoreStock($child);
             }

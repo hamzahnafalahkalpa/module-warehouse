@@ -58,9 +58,9 @@ class Stock extends MainStock
                 $stock_model  = new static();
                 $parent_model = $stock_model->firstOrCreate([
                     'subject_type'   => $query->subject_type,
-                    'subject_id'     => $query->subject_id,
+                    'subject_id'     => (string) $query->subject_id,
                     'warehouse_type' => $query->warehouse_type,
-                    'warehouse_id'   => $query->warehouse_id
+                    'warehouse_id'   => (string) $query->warehouse_id
                 ], [
                     'stock' => 0
                 ]);

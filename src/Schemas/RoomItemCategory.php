@@ -3,7 +3,10 @@
 namespace Hanafalah\ModuleWarehouse\Schemas;
 
 use Hanafalah\LaravelSupport\Schemas\Unicode;
+use Hanafalah\ModuleWarehouse\Contracts\Data\RoomItemCategoryData;
 use Hanafalah\ModuleWarehouse\Contracts\Schemas\RoomItemCategory as ContractsRoomItemCategory;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class RoomItemCategory extends Unicode implements ContractsRoomItemCategory
 {
@@ -18,4 +21,13 @@ class RoomItemCategory extends Unicode implements ContractsRoomItemCategory
             'duration' => 24 * 60
         ]
     ];
+
+    public function prepareStoreRoomItemCategory(RoomItemCategoryData $room_item_category_dto): Model{
+        $room_item_category = parent::prepareStoreUnicode($room_item_category_dto);
+        return $this->room_item_category_model = $room_item_category;
+    }
+
+    public function roomItemCategory(mixed $conditionals = null): Builder{
+        return $this->unicode($conditionals);
+    }
 }
